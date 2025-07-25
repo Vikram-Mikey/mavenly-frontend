@@ -1,0 +1,72 @@
+.signup-popup-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: none;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(2px);
+  padding: 0rem 0rem 0rem 0rem;
+  margin: 0;
+}
+.signup-popup-modal {
+  box-shadow: 0 8px 32px #0003;
+  box-sizing: border-box;
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  min-width: 0;
+  width: 100%;
+  max-width: 400px;
+  max-height: 95vh;
+  margin: 0 !important;
+  overflow: visible;
+  position: relative;
+  animation: popup-fade-in 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 0 !important;
+  overflow-y: auto;
+  scrollbar-width: none;
+  padding-bottom: 0 !important;
+}
+.signup-popup-modal:hover {
+  overflow-y: auto;
+}
+.signup-popup-modal::-webkit-scrollbar {
+  display: none;
+}
+.signup-popup-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #fff;
+  border: none;
+  font-size: 2.1rem;
+  color: #d32f2f;
+  cursor: pointer;
+  z-index: 2;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px #d32f2f22;
+  transition: background 0.18s, box-shadow 0.18s;
+}
+.signup-popup-close:hover {
+  background: #ffeaea;
+  box-shadow: 0 4px 16px #d32f2f33;
+}
+@keyframes popup-fade-in {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1); }
+}
+@media (max-width: 500px) {
+  .signup-popup-modal {
+    max-width: 98vw;
+    width: 98vw;
+    padding: 1.2rem 0.5rem 1rem 0.5rem;
+  }
+}

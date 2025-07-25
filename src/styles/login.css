@@ -1,0 +1,49 @@
+/* Login and Auth styles */
+
+.page-login {
+  background: #000;
+  min-height: 10vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.login-container {
+  width: 95%;
+  max-width: 400px;
+  margin: 3rem auto;
+  padding: 2rem 1.5rem;
+  background: linear-gradient(90deg, #ff5757 0%, #4998da 100%);
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(29, 39, 232, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  align-items: stretch;
+  width: 100%;
+  max-width: 350px;
+  margin: 0 auto;
+}
+.auth-form input {
+  padding: 0.8rem 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  margin: 0;
+}
+.auth-form button {
+  padding: 0.8rem 1rem;
+  border-radius: 6px;
+  background: #4998da;
+  color: #fff;
+  border: none;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  margin: 0;
+}

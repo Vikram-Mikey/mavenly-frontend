@@ -1,0 +1,39 @@
+/* RefundCancellationPolicy styles */
+
+.refund-cancellation-section {
+  width: 100%;
+  min-height: 60vh;
+  background: #000;
+  padding: 3rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+  margin: 0;
+}
+.refund-title-dev {
+  width: 90%;
+  max-width: 700px;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+.refund-title-dev h2 {
+  color: #4998da;
+  font-weight: bold;
+  font-size: 2.2rem;
+  margin-bottom: 1.2rem;
+}
+.refund-content-dev {
+  width: 90%;
+  max-width: 700px;
+  background: #000;
+  border-radius: 12px;
+  padding: 2rem;
+  color: #fff;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.refund-content-dev strong {
+  color: #4998da;
+}

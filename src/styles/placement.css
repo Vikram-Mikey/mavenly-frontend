@@ -1,0 +1,236 @@
+
+/* DrapCode Placement Portal Template Styles */
+
+.placement-template {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #f8fafc;
+  color: #222;
+}
+
+/* Hero Section */
+.placement-hero-template {
+  background: linear-gradient(120deg, #2563eb 60%, #1e293b 100%);
+  padding: 64px 0 48px 0;
+  position: relative;
+}
+.placement-hero-bg {
+  width: 100%;
+  min-height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.placement-hero-overlay {
+  width: 100%;
+  background: rgba(0,0,0,0.15);
+  padding: 0 16px;
+}
+.placement-hero-content-template {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+  color: #fff;
+}
+.placement-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 18px;
+}
+.placement-subtitle {
+  font-size: 1.25rem;
+  margin-bottom: 32px;
+  color: #e0e7ef;
+}
+.placement-btn-primary {
+  background: #fff;
+  color: #2563eb;
+  font-weight: 700;
+  padding: 12px 32px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 8px #2563eb22;
+  transition: background 0.2s, color 0.2s;
+}
+.placement-btn-primary:hover {
+  background: #2563eb;
+  color: #fff;
+}
+
+/* Stats Section */
+.placement-stats-template {
+  background: #000;
+  padding: 40px 0 24px 0;
+}
+.placement-stats-grid {
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.placement-stat-item {
+  text-align: center;
+}
+.placement-stat-item h2 {
+  color: #2563eb;
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+.placement-stat-item span {
+  color: #334155;
+  font-size: 1.1rem;
+}
+
+/* Job Opportunities Section */
+.placement-jobs-template {
+  background: #000;
+  padding: 40px 0 32px 0;
+}
+.section-title {
+  text-align: center;
+  color: #2563eb;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 32px;
+}
+.placement-jobs-list {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.placement-job-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px #2563eb11;
+  padding: 28px 32px;
+  min-width: 260px;
+  max-width: 320px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.placement-job-card h3 {
+  color: #2563eb;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.placement-job-card p {
+  color: #475569;
+  margin-bottom: 10px;
+}
+.job-type {
+  background: #e0e7ef;
+  color: #2563eb;
+  font-size: 0.95rem;
+  border-radius: 6px;
+  padding: 2px 10px;
+  margin-bottom: 14px;
+  display: inline-block;
+}
+.placement-btn-secondary {
+  background: #2563eb;
+  color: #fff;
+  font-weight: 600;
+  padding: 8px 22px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 1rem;
+  margin-top: auto;
+  transition: background 0.2s;
+}
+.placement-btn-secondary:hover {
+  background: #1e293b;
+}
+
+/* Companies Section */
+.placement-companies-template {
+  background: #000;
+  padding: 40px 0 32px 0;
+}
+.placement-company-logos-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 18px;
+}
+.placement-company-logo-wrapper {
+  background: #f1f5f9;
+  border-radius: 10px;
+  padding: 16px 24px;
+  box-shadow: 0 1px 6px #2563eb11;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 90px;
+  min-height: 60px;
+}
+.placement-company-logo {
+  max-height: 40px;
+  max-width: 90px;
+  object-fit: contain;
+}
+
+/* Testimonials Section */
+.placement-testimonials-template {
+  background: #131111;
+  padding: 40px 0 32px 0;
+}
+.placement-testimonials-grid {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.placement-testimonial-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px #2563eb11;
+  padding: 28px 32px;
+  min-width: 260px;
+  max-width: 320px;
+  text-align: left;
+}
+.placement-testimonial-text {
+  font-size: 1.1rem;
+  color: #fff;
+  margin-bottom: 16px;
+  font-style: italic;
+}
+.placement-testimonial-author {
+  color: #2563eb;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+/* Registration/Contact Section */
+.placement-register-template {
+  background: linear-gradient(120deg, #2563eb 60%, #1e293b 100%);
+  padding: 48px 0 56px 0;
+  text-align: center;
+}
+.placement-register-content {
+  max-width: 500px;
+  margin: 0 auto;
+  color: #fff;
+}
+.placement-register-content h2 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+.placement-register-content p {
+  font-size: 1.1rem;
+  margin-bottom: 28px;
+  color: #e0e7ef;
+}
+.placement-register-content .placement-btn-primary {
+  font-size: 1.1rem;
+  padding: 12px 32px;
+}

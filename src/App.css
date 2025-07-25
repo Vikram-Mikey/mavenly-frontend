@@ -1,0 +1,11 @@
+/* Only import organized CSS files here */
+@import './styles/global.css';
+@import './styles/navbar.css';
+@import './styles/footer.css';
+@import './styles/home.css';
+@import './styles/programs.css';
+@import './styles/about.css';
+@import './styles/login.css';
+@import './styles/addcart.css';
+
+/* You can remove all other CSS from this file after verifying the split. */

@@ -1,0 +1,219 @@
+/* Nexowallet-inspired testimonial and hero styles */
+.nexo-hero {
+  background: linear-gradient(135deg, #181c2a 0%, #1b2236 100%);
+  color: #fff;
+  padding: 64px 0 32px 0;
+  text-align: center;
+}
+.nexo-hero-title {
+  font-size: 2.8rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+}
+.nexo-hero-sub {
+  font-size: 1.25rem;
+  color: #b3b8c5;
+  margin-bottom: 32px;
+}
+.nexo-cta-btn {
+  background: linear-gradient(90deg, #2563eb 0%, #6f7bf7 100%);
+  color: #fff;
+  border: none;
+  border-radius: 32px;
+  padding: 14px 38px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  box-shadow: 0 4px 24px #2563eb33;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+.nexo-cta-btn:hover {
+  box-shadow: 0 8px 32px #2563eb55;
+}
+
+.nexo-testimonials-section {
+  background: #181c2a;
+  padding: 56px 0 64px 0;
+  position: relative;
+  overflow: hidden;
+}
+.nexo-testimonials-section::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  left: -120px;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle at 40% 40%, #2563eb33 0%, transparent 80%);
+  z-index: 0;
+}
+.nexo-testimonials-section::after {
+  content: '';
+  position: absolute;
+  bottom: -100px;
+  right: -100px;
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(circle at 60% 60%, #ff575733 0%, transparent 80%);
+  z-index: 0;
+}
+.nexo-testimonials-title {
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 36px;
+  position: relative;
+  z-index: 1;
+}
+.nexo-gradient-divider {
+  width: 120px;
+  height: 5px;
+  margin: 0 auto 36px auto;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #2563eb 0%, #ff5757 100%);
+  opacity: 0.7;
+  position: relative;
+  z-index: 1;
+}
+.nexo-testimonials-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+.nexo-testimonial-card {
+  background: rgba(255,255,255,0.08);
+  border-radius: 18px;
+  box-shadow: 0 4px 24px #0002;
+  border: 1.5px solid #2563eb33;
+  padding: 32px 28px 24px 28px;
+  max-width: 340px;
+  min-width: 260px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  backdrop-filter: blur(8px);
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+.nexo-testimonial-card:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 8px 32px #2563eb33, 0 2px 16px #ff575733;
+}
+.nexo-testimonial-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #2563eb;
+  margin-bottom: 16px;
+}
+.nexo-testimonial-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.nexo-testimonial-role {
+  font-size: 0.98rem;
+  color: #b3b8c5;
+  margin-bottom: 12px;
+}
+.nexo-testimonial-text {
+  font-size: 1.08rem;
+  color: #e3e7f7;
+  margin-bottom: 18px;
+  text-align: center;
+}
+.nexo-testimonial-stars {
+  color: #ffd700;
+  font-size: 1.2rem;
+  margin-bottom: 0;
+}
+
+@media (max-width: 700px) {
+  .nexo-testimonials-list {
+    flex-direction: column;
+    align-items: center;
+  }
+  .nexo-hero-title {
+    font-size: 2rem;
+  }
+}
+
+/* Nexowallet-inspired testimonial styles */
+.nexo-testimonials-section {
+  background: #181c2a;
+  padding: 56px 0 64px 0;
+}
+.nexo-testimonials-title {
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 36px;
+}
+.nexo-testimonials-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  justify-content: center;
+}
+.nexo-testimonial-card {
+  background: rgba(255,255,255,0.08);
+  border-radius: 18px;
+  box-shadow: 0 4px 24px #0002;
+  border: 1.5px solid #2563eb33;
+  padding: 32px 28px 24px 28px;
+  max-width: 340px;
+  min-width: 260px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  backdrop-filter: blur(8px);
+}
+.nexo-testimonial-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #2563eb;
+  margin-bottom: 16px;
+}
+.nexo-testimonial-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.nexo-testimonial-role {
+  font-size: 0.98rem;
+  color: #b3b8c5;
+  margin-bottom: 12px;
+}
+.nexo-testimonial-text {
+  font-size: 1.08rem;
+  color: #e3e7f7;
+  margin-bottom: 18px;
+  text-align: center;
+}
+.nexo-testimonial-stars {
+  color: #ffd700;
+  font-size: 1.2rem;
+  margin-bottom: 0;
+}
+
+@media (max-width: 700px) {
+  .nexo-testimonials-list {
+    flex-direction: column;
+    align-items: center;
+  }
+  .nexo-testimonials-title {
+    font-size: 1.3rem;
+  }
+}

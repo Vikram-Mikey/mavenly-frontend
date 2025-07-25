@@ -1,174 +1,362 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API_BASE_URL from './config.js';
+import Cookies from 'js-cookie';
+import './styles/profile.css';
 
-function Profile() {
+const Profile = () => {
   const navigate = useNavigate();
+  const handleLogout = () => {
+    Cookies.remove('user_id', { path: '/' });
+    Cookies.remove('user_email', { path: '/' });
+    navigate('/');
+  };
   const [profile, setProfile] = useState(null);
   const [error, setError] = useState('');
-  const [message, setMessage] = useState('');
   const [editField, setEditField] = useState('');
   const [form, setForm] = useState({ username: '', email: '', phone: '', password: '' });
+  const [message, setMessage] = useState('');
   const [verifying, setVerifying] = useState(false);
   const [verificationCode, setVerificationCode] = useState('');
   const [photo, setPhoto] = useState(null);
   const [photoUrl, setPhotoUrl] = useState('');
-  const [loadingPhoto, setLoadingPhoto] = useState(false);
-  const photoMenuRef = useRef(null);
   const [showPhotoMenu, setShowPhotoMenu] = useState(false);
+  const photoMenuRef = useRef(null);
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}/api/profile/`, { credentials: 'include' })
-      .then(res => res.ok ? res.json() : Promise.reject())
-      .then(data => setProfile(data))
+    fetch(`${API_BASE_URL}/api/profile/`, {
+      method: 'GET',
+      credentials: 'include',
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          setError(data.error);
+        } else {
+          setProfile(data);
+          setForm({ username: data.username, email: data.email, phone: data.phone, password: '' });
+          setPhotoUrl(data.photo_url || '');
+        }
+      })
       .catch(() => setError('Failed to fetch profile'));
   }, []);
 
-  useEffect(() => {
-    if (profile) {
-      setForm({ username: profile.username, email: profile.email, phone: profile.phone, password: '' });
-      setPhotoUrl(profile.photo_url || '');
-    }
-  }, [profile]);
-
-  const logout = () => {
-    fetch(`${API_BASE_URL}/api/logout/`, { method: 'POST', credentials: 'include' })
-      .finally(() => navigate('/'));
-  };
-
-  const handleEdit = field => {
+  const handleEdit = (field) => {
     setEditField(field);
     setMessage('');
     setVerifying(false);
     setVerificationCode('');
   };
-  const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
 
-  const requestVerification = async () => {
-    setMessage('Sending verification code…');
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleVerifyRequest = async () => {
+    setMessage('Sending verification code...');
     setVerifying(true);
+    let data;
+    let res;
     try {
-      const res = await fetch(`${API_BASE_URL}/api/send-verification-code/`, {
+      res = await fetch(`${API_BASE_URL}/api/send-verification-code/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
         body: JSON.stringify({ email: form.email })
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed');
-      setMessage('Verification code sent');
+      data = await res.json();
     } catch (e) {
-      setMessage(e.message);
+      setMessage('Network or server error.');
+      setVerifying(false);
+      return;
+    }
+    if (res.ok) {
+      setMessage('Verification code sent to your email.');
+    } else {
+      setMessage((data && data.error) || 'Failed to send verification code.');
       setVerifying(false);
     }
   };
 
-  const saveField = async () => {
-    setMessage('Saving…');
+  const handleSave = async () => {
+    setMessage('Saving...');
+    const payload = {
+      field: editField,
+      value: form[editField],
+      verification_code: verificationCode
+    };
+    if (editField === 'password') {
+      payload.password = form.password;
+    }
+    let data;
+    let res;
     try {
-      const payload = {
-        field: editField,
-        value: form[editField],
-        verification_code: verificationCode,
-        ...(editField === 'password' ? { password: form.password } : {})
-      };
-      const res = await fetch(`${API_BASE_URL}/api/update-profile/`, {
+      res = await fetch(`${API_BASE_URL}/api/update-profile/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
         body: JSON.stringify(payload)
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed to update');
-      setMessage('Updated successfully');
+      data = await res.json();
+    } catch (e) {
+      setMessage('Network or server error.');
+      return;
+    }
+    if (res.ok) {
+      setMessage('Updated successfully!');
       setEditField('');
       setVerifying(false);
       setVerificationCode('');
-      setProfile(prev => ({ ...prev, [editField]: form[editField] }));
-    } catch (e) {
-      setMessage(e.message);
+      setProfile({ ...profile, [editField]: form[editField] });
+      setForm({ ...form, password: '' });
+    } else {
+      setMessage((data && data.error) || 'Failed to update.');
     }
   };
 
-  const handlePhotoChange = e => e.target.files?.[0] && setPhoto(e.target.files[0]);
-  const uploadPhoto = async () => {
-    if (!photo) return;
-    setLoadingPhoto(true);
-    const fd = new FormData();
-    fd.append('photo', photo);
-    try {
-      const res = await fetch(`${API_BASE_URL}/api/upload-profile-photo/`, {
-        method: 'POST',
-        credentials: 'include',
-        body: fd
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed to upload');
-      const url = data.photo_url.startsWith('/') ? API_BASE_URL + data.photo_url : data.photo_url;
-      setPhotoUrl(url);
-      setMessage('Profile photo updated');
-      setPhoto(null);
-    } catch (e) {
-      setMessage(e.message);
-    } finally {
-      setLoadingPhoto(false);
+  const handlePhotoChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setPhoto(e.target.files[0]);
+      setPhotoUrl(URL.createObjectURL(e.target.files[0]));
     }
   };
-  const removePhoto = async () => {
-    setMessage('Removing...');
+
+  const handlePhotoUpload = async () => {
+    if (!photo) return;
+    const formData = new FormData();
+    formData.append('photo', photo);
+    const res = await fetch(`${API_BASE_URL}/api/upload-profile-photo/`, {
+      method: 'POST',
+      credentials: 'include',
+      body: formData
+    });
+    const data = await res.json();
+    if (res.ok && data.photo_url) {
+      let url = data.photo_url;
+      if (url && url.startsWith('/')) {
+        url = API_BASE_URL + url;
+      }
+      setPhotoUrl(url);
+      setMessage('Profile photo updated!');
+      setPhoto(null); // Hide Save Photo button immediately
+      // Wait for the new photo to load, then show menu
+      setTimeout(() => setShowPhotoMenu(true), 200);
+    } else {
+      setMessage(data.error || 'Failed to upload photo.');
+    }
+  };
+
+
+  // Open menu on photo click
+  const handlePhotoClick = (e) => {
+    e.stopPropagation();
+    setShowPhotoMenu((prev) => !prev);
+  };
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    if (!showPhotoMenu) return;
+    const handleClickOutside = (event) => {
+      if (photoMenuRef.current && !photoMenuRef.current.contains(event.target)) {
+        setShowPhotoMenu(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showPhotoMenu]);
+
+  const handleRemovePhoto = async () => {
+    setPhotoUrl('');
+    setPhoto(null);
+    setShowPhotoMenu(false);
+    setMessage('Removing photo...');
     try {
       const res = await fetch(`${API_BASE_URL}/api/remove-profile-photo/`, {
-        method: 'POST', credentials: 'include'
+        method: 'POST',
+        credentials: 'include',
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed');
-      setPhotoUrl('');
-      setMessage('Photo removed');
+      if (res.ok) {
+        setMessage('Profile photo removed!');
+      } else {
+        setMessage(data.error || 'Failed to remove photo.');
+      }
     } catch (e) {
-      setMessage(e.message);
+      setMessage('Failed to remove photo.');
     }
   };
 
-  if (error) return <div className="profile-error">{error}</div>;
-  if (!profile) return <div className="profile-loading">Loading profile…</div>;
+
+if (error) return <div style={{color:'#d32f2f',textAlign:'center',marginTop:40,fontWeight:600}}>{error}</div>;
 
   return (
-    <div className="profile-container">
-      <div className="profile-photo">
-        {photoUrl ? <img src={photoUrl} alt="Profile" /> : <div className="profile-placeholder">👤</div>}
-        <div className="photo-actions">
-          <button onClick={() => document.getElementById('photoInput').click()}>Update</button>
-          {photoUrl && <button onClick={removePhoto}>Remove</button>}
-        </div>
-        <input id="photoInput" type="file" accept="image/*" hidden onChange={handlePhotoChange} />
-        {photo && <button onClick={uploadPhoto} disabled={loadingPhoto}>{loadingPhoto ? 'Uploading...' : 'Save Photo'}</button>}
-      </div>
-      {['username','email','phone','password'].map(field => (
-        <div key={field} className="profile-field">
-          <label>{field.charAt(0).toUpperCase() + field.slice(1)}</label>
-          {editField === field ? (
-            <>
-              <input name={field} type={field === 'password' ? 'password' : 'text'} value={form[field]} onChange={handleChange} />
-              {!verifying && <button onClick={requestVerification}>Verify by Email</button>}
-            </>
+    <div className="profile-main-container">
+      <div className="profile-photo-container">
+        <div className="profile-photo-avatar" style={{position:'relative', display:'inline-block'}}>
+          {photoUrl ? (
+            <img src={photoUrl} alt="Profile" className="profile-photo-img" />
           ) : (
-            <>
-              <span>{field === 'password' ? '********' : profile[field]}</span>
-              <button onClick={() => handleEdit(field)}>Change</button>
-            </>
+            <span className="profile-photo-icon" role="img" aria-label="profile">👤</span>
           )}
         </div>
-      ))}
-      {verifying && (
-        <div className="profile-verify">
-          <input placeholder="Verification code" value={verificationCode} onChange={e => setVerificationCode(e.target.value)} />
-          <button onClick={saveField}>Save</button>
+        <div className="profile-photo-actions" style={{display:'flex', justifyContent:'center', gap:'18px', marginTop:'10px'}}>
+          <span
+            className="profile-photo-edit-icon"
+            title="Update Photo"
+            onClick={() => document.getElementById('profile-photo-upload').click()}
+          >
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M13.586 3.586a2 2 0 0 1 2.828 2.828l-8.5 8.5a1 1 0 0 1-.293.207l-3 1.5a1 1 0 0 1-1.316-1.316l1.5-3a1 1 0 0 1 .207-.293l8.5-8.5z" stroke="#4998da" strokeWidth="1.5"/>
+            </svg>
+          </span>
+          <input
+            id="profile-photo-upload"
+            type="file"
+            accept="image/*"
+            style={{display:'none'}}
+            onChange={handlePhotoChange}
+            onClick={e=>e.stopPropagation()}
+          />
+          {photoUrl && (
+            <span
+              className="profile-photo-delete-icon"
+              title="Remove Photo"
+              onClick={handleRemovePhoto}
+            >
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 6l8 8M6 14L14 6" stroke="#d32f2f" strokeWidth="1.5"/>
+              </svg>
+            </span>
+          )}
         </div>
+        <div className="profile-photo-label">Profile Photo</div>
+        {photo && (
+          <button
+            onClick={handlePhotoUpload}
+            className="profile-save-photo-btn"
+          >
+            Save Photo
+          </button>
+        )}
+      </div>
+      {!profile ? (
+        <div className="profile-loading">
+          <div className="profile-loading-spinner" />
+          Loading profile...
+        </div>
+      ) : (
+        <>
+          <div className="profile-field-group">
+            <label className="profile-field-label">Username</label>
+            <div className="profile-field-row">
+              {editField==='username' ? (
+                <>
+                  <input name="username" value={form.username} onChange={handleChange} className="profile-input" />
+                  {!verifying ? <button onClick={handleVerifyRequest} className="profile-verify-btn">Verify by Email</button> : null}
+                </>
+              ) : (
+                <>
+                  <span className="profile-field-value">{profile.username}</span>
+                  <>
+                    <button
+                      onClick={()=>handleEdit('username')}
+                      className="profile-change-btn"
+                    >
+                      Change
+                    </button>
+                  </>
+                </>
+              )}
+            </div>
+          </div>
+          <div className="profile-field-group">
+            <label className="profile-field-label">Email</label>
+            <div className="profile-field-row">
+              {editField==='email' ? (
+                <>
+                  <input name="email" value={form.email} onChange={handleChange} className="profile-input" />
+                  {!verifying ? <button onClick={handleVerifyRequest} className="profile-verify-btn">Verify by Email</button> : null}
+                </>
+              ) : (
+                <>
+                  <span className="profile-field-value">{profile.email}</span>
+                  <>
+                    <button
+                      onClick={()=>handleEdit('email')}
+                      className="profile-change-btn"
+                    >
+                      Change
+                    </button>
+                  </>
+                </>
+              )}
+            </div>
+          </div>
+          <div className="profile-field-group">
+            <label className="profile-field-label">Phone</label>
+            <div className="profile-field-row">
+              {editField==='phone' ? (
+                <>
+                  <input name="phone" value={form.phone} onChange={handleChange} className="profile-input" />
+                  {!verifying ? <button onClick={handleVerifyRequest} className="profile-verify-btn">Verify by Email</button> : null}
+                </>
+              ) : (
+                <>
+                  <span className="profile-field-value">{profile.phone}</span>
+                  <>
+                    <button
+                      onClick={()=>handleEdit('phone')}
+                      className="profile-change-btn"
+                    >
+                      Change
+                    </button>
+                  </>
+                </>
+              )}
+            </div>
+          </div>
+          <div className="profile-field-group">
+            <label className="profile-field-label">Password</label>
+            <div className="profile-field-row">
+              {editField==='password' ? (
+                <>
+                  <input name="password" type="password" value={form.password} onChange={handleChange} className="profile-input" />
+                  {!verifying ? <button onClick={handleVerifyRequest} className="profile-verify-btn">Verify by Email</button> : null}
+                </>
+              ) : (
+                <>
+                  <span className="profile-field-value">********</span>
+                  <>
+                    <button
+                      onClick={()=>handleEdit('password')}
+                      className="profile-change-btn"
+                    >
+                      Change
+                    </button>
+                  </>
+                </>
+              )}
+            </div>
+          </div>
+          {verifying && (
+            <div className="profile-verifying-row">
+              <input placeholder="Enter verification code" value={verificationCode} onChange={e=>setVerificationCode(e.target.value)} className="profile-input" />
+              <button onClick={handleSave} className="profile-save-btn">Save</button>
+            </div>
+          )}
+        </>
       )}
-      {message && <div className={`profile-message ${message.toLowerCase().includes('success') ? 'success' : 'error'}`}>{message}</div>}
-      <button onClick={logout}>Logout</button>
+      {message && <div className={"profile-message " + (message.includes('success') ? 'success' : 'error')}>{message}</div>}
+      <button
+        onClick={handleLogout}
+        className="profile-logout-btn"
+      >
+        Logout
+      </button>
     </div>
   );
-}
+};
 
 export default Profile;

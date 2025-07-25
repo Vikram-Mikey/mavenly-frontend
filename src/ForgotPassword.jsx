@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import API_BASE_URL from './config.js';
 import './styles/forgotpassword.css';
 
 function ForgotPassword() {
@@ -16,7 +17,7 @@ function ForgotPassword() {
     e.preventDefault();
     setError('');
     setSuccess('');
-    const res = await fetch('http://localhost:8000/api/forgot-password-otp/', {
+    const res = await fetch(`${API_BASE_URL}/api/forgot-password-otp/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username })
@@ -34,7 +35,7 @@ function ForgotPassword() {
     e.preventDefault();
     setError('');
     setSuccess('');
-    const res = await fetch('http://localhost:8000/api/forgot-password-verify/', {
+    const res = await fetch(`${API_BASE_URL}/api/forgot-password-verify/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, otp, new_password: newPassword })

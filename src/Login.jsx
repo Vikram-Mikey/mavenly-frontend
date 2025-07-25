@@ -1,6 +1,8 @@
 
+
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import API_BASE_URL from './config.js';
 
 
 function Login() {
@@ -12,7 +14,7 @@ function Login() {
 
   useEffect(() => {
     // Check if user is already authenticated
-    fetch('http://localhost:8000/api/profile/', {
+    fetch(`${API_BASE_URL}/api/profile/`, {
       method: 'GET',
       credentials: 'include',
     })
@@ -31,7 +33,7 @@ function Login() {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    const res = await fetch('http://localhost:8000/api/login/', {
+    const res = await fetch(`${API_BASE_URL}/api/login/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',

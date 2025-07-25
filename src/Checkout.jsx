@@ -31,7 +31,7 @@ function Checkout() {
   const navigate = useNavigate();
   // Fetch UPI and QR info from backend
   useEffect(() => {
-    fetch('http://localhost:8000/api/payment-info/')
+    fetch(`${API_BASE_URL}/api/payment-info/`)
       .then(res => res.json())
       .then(data => {
         setUpiId(data.upi_number || '');
@@ -118,7 +118,7 @@ function Checkout() {
       }
 
       // Send checkout info to backend to email host
-      await fetch('http://localhost:8000/api/checkout-email/', {
+      await fetch(`${API_BASE_URL}/api/checkout-email/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -134,7 +134,7 @@ function Checkout() {
       });
 
       // Send confirmation email to user (now with total, original_amount, discount_amount, and plan_amount)
-      await fetch('http://localhost:8000/api/payment-confirmation-email/', {
+      await fetch(`${API_BASE_URL}/api/payment-confirmation-email/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

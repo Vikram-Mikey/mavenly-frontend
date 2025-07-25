@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import API_BASE_URL from './config.js';
 import './styles/freelancingprogramdevsection.css';
 
 
@@ -26,7 +27,7 @@ function FreelancingProgramDevSection({ className, imgSrc, imgAlt }) {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      const res = await fetch('http://localhost:8000/api/freelancing-enquiry-email/', {
+      const res = await fetch(`${API_BASE_URL}/api/freelancing-enquiry-email/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

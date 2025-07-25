@@ -1,7 +1,9 @@
 
 
 import React, { useState, useEffect, useRef } from 'react';
+
 import axios from 'axios';
+import API_BASE_URL from './config';
 import './styles/programreview.css';
 
 
@@ -60,7 +62,7 @@ const ProgramReview = ({ programName }) => {
   const fetchReviews = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`/api/program-reviews/?program=${programName}`);
+      const res = await axios.get(`${API_BASE_URL}/api/program-reviews/?program=${programName}`);
       // Ensure reviews is always an array
       if (Array.isArray(res.data)) {
         setReviews(res.data);
@@ -92,7 +94,7 @@ const ProgramReview = ({ programName }) => {
       return;
     }
     try {
-      await axios.post('/api/program-reviews/', {
+      await axios.post(`${API_BASE_URL}/api/program-reviews/`, {
         program: programName,
         name: form.name,
         review: form.review,
@@ -242,7 +244,7 @@ const ProgramReview = ({ programName }) => {
                       setReviews(prev => prev.map((item, i) => i === (page - 1) * reviewsPerPage + idx ? { ...item, _fading: true } : item));
                       setTimeout(async () => {
                         try {
-                          await axios.delete(`/api/program-reviews/${r.id}/`, {
+                          await axios.delete(`${API_BASE_URL}/api/program-reviews/${r.id}/`, {
                             headers: { 'X-User-Email': adminEmail }
                           });
                           fetchReviews();

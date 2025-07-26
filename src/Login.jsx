@@ -25,18 +25,9 @@ export default function Login() {
   };
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}/api/profile/`, { credentials: 'include' })
-      .then(res => res.json())
-      .then(data => {
-        if (!data.error) {
-          setError('');
-          navigate('/profile');
-        } else {
-          setCheckingAuth(false);
-        }
-      })
-      .catch(() => setCheckingAuth(false));
-  }, [navigate]);
+    // Remove profile fetch; just set checkingAuth to false on mount
+    setCheckingAuth(false);
+  }, []);
 
   const handleChange = e => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -61,7 +52,7 @@ export default function Login() {
       const data = await res.json();
       if (res.ok) {
         setError('');
-        navigate('/profile');
+        navigate('/'); // Redirect to home page after login
       } else {
         setError(data.error || 'Login failed.');
       }
@@ -115,3 +106,11 @@ export default function Login() {
     </section>
   );
 }
+
+/*
+Explanation of credentials: 'include' usage in fetch requests:
+
+The 'credentials: 'include'' option in the fetch request is used to include cookies in the request, which is essential for maintaining a session on the server. When this option is set, the browser will include any cookies associated with the requested URL in the request. This is particularly important for requests to APIs that require authentication, as the cookies may contain session identifiers or other authentication tokens.
+
+In the context of the Login component, 'credentials: 'include'' is used in the login and logout fetch requests to ensure that the session cookies are sent to the server. This allows the server to recognize the user session and respond appropriately, such as by logging the user out or validating the login request.
+*/

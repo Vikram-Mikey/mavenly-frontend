@@ -10,13 +10,7 @@ export default function Signup() {
   });
   const [error, setError] = useState('');
 
-  // Force logout on mount to clear any existing session
-  useEffect(() => {
-    fetch(`${API_BASE_URL}/api/logout/`, {
-      method: 'POST',
-      credentials: 'include',
-    });
-  }, []);
+  // ...existing code...
 
   const handleChange = e => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));

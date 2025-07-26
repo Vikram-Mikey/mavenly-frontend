@@ -1,11 +1,9 @@
-
-
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import API_BASE_URL from './config.js';
+import API_BASE_URL from './config';
+import './styles/auth.css';
 
-
-function Login() {
+export default function Login() {
   const navigate = useNavigate();
   const [form, setForm] = useState({ username: '', password: '' });
   const [error, setError] = useState('');
@@ -13,98 +11,82 @@ function Login() {
   const [checkingAuth, setCheckingAuth] = useState(true);
 
   useEffect(() => {
-    // Check if user is already authenticated
-    fetch(`${API_BASE_URL}/api/profile/`, {
-      method: 'GET',
-      credentials: 'include',
-    })
+    fetch(`${API_BASE_URL}/api/profile/`, { credentials: 'include' })
       .then(res => res.json())
       .then(data => {
-        if (data && !data.error) {
-          navigate('/profile');
-        } else {
-          setCheckingAuth(false);
-        }
+        if (!data.error) navigate('/profile');
+        else setCheckingAuth(false);
       })
       .catch(() => setCheckingAuth(false));
   }, [navigate]);
 
-  const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = e => {
+    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    setError('');
+  };
+
+  const validate = () => form.username.trim() && form.password.length >= 8;
 
   const handleSubmit = async e => {
     e.preventDefault();
-    const res = await fetch(`${API_BASE_URL}/api/login/`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify({ username: form.username, password: form.password })
-    });
-    if (res.ok) {
-      navigate('/profile');
-    } else {
+    if (!validate()) {
+      setError('Please enter valid username and password (min 8 chars).');
+      return;
+    }
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/login/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(form),
+      });
       const data = await res.json();
-      setError(data.error || JSON.stringify(data));
+      if (res.ok) navigate('/profile');
+      else setError(data.error || 'Login failed.');
+    } catch {
+      setError('Network error. Please try again.');
     }
   };
 
-  if (checkingAuth) {
-    return (
-      <div style={{textAlign:'center',marginTop:60,fontWeight:600,fontSize:18}}>Checking authentication...</div>
-    );
-  }
+  if (checkingAuth) return <div className="loading">Checking authentication...</div>;
 
   return (
-    <section className="page-login">
-      <div className="login-container">
-        <h1 className="highlight">Hi, Welcome back!</h1>
-        <form className="auth-form" onSubmit={handleSubmit}>
-          <input type="text" name="username" placeholder="Email or Username" value={form.username} onChange={handleChange} required />
-          <div style={{ position: 'relative' }}>
-            <input
-              type={showPassword ? 'text' : 'password'}
-              name="password"
-              placeholder="Password"
-              value={form.password}
-              onChange={handleChange}
-              required
-              style={{ paddingRight: 40 }}
-            />
-            <span
-              onClick={() => setShowPassword((prev) => !prev)}
-              style={{
-                position: 'absolute',
-                right: 10,
-                top: '50%',
-                transform: 'translateY(-50%)',
-                cursor: 'pointer',
-                fontSize: 18,
-                color: '#888',
-                zIndex: 2
-              }}
-              tabIndex={0}
-              aria-label={showPassword ? 'Hide password' : 'Show password'}
-              role="button"
-            >
-              {showPassword ? '🙈' : '👁️'}
-            </span>
-          </div>
-          <div className="remember-row" style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem', justifyContent: 'space-between' }}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <input type="checkbox" id="rememberMe" style={{ marginRight: '0.5rem' }} />
-              <label htmlFor="rememberMe" style={{ color: '#fff', fontSize: '1rem', cursor: 'pointer' }}>Remember</label>
-            </div>
-            <span className="forgot-password" style={{ color: '#ff5757', fontSize: '1rem', cursor: 'pointer', marginLeft: '1.5rem' }} onClick={() => navigate('/forgot-password')}>Forgot password?</span>
-          </div>
-          <button type="submit">Login</button>
-        </form>
-        {error && <div style={{color:'red'}}>{error}</div>}
-        <div className="signup-link">
-          <span>Don't have an account? </span>
-          <span className="signup-text" style={{color: '#ff5757', cursor: 'pointer'}} onClick={() => window.location.href='/signup'}>Signup</span>
+    <section className="auth-page">
+      <form className="auth-form" onSubmit={handleSubmit} noValidate>
+        <h1>Login</h1>
+        <input
+          name="username"
+          type="text"
+          placeholder="Email or Username"
+          value={form.username}
+          onChange={handleChange}
+          required
+        />
+        <div className="password-field">
+          <input
+            name="password"
+            type={showPassword ? 'text' : 'password'}
+            placeholder="Password"
+            value={form.password}
+            onChange={handleChange}
+            required
+          />
+          <button
+            type="button"
+            aria-label={showPassword ? 'Hide password' : 'Show password'}
+            className="toggle"
+            onClick={() => setShowPassword(prev => !prev)}
+          >
+            {showPassword ? '🙈' : '👁️'}
+          </button>
         </div>
-      </div>
+        <button type="submit">Login</button>
+        {error && <div className="error">{error}</div>}
+        <div className="auth-footer">
+          <span onClick={() => navigate('/forgot-password')}>Forgot password?</span>
+          <span onClick={() => navigate('/signup')}>Signup</span>
+        </div>
+      </form>
     </section>
   );
 }
-
-export default Login;

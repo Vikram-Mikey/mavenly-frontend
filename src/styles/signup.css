@@ -95,6 +95,12 @@ button[type="submit"]:hover {
     text-align: center;
     gap: 0.5rem;
   }
+  .auth-form {
+    max-width: 95vw;
+    padding: 1.2rem 0.7rem 1.2rem 0.7rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px #0001;
+  }
 }
 .auth-footer span {
   color: #2563eb;

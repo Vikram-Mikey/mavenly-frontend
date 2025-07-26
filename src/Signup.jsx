@@ -26,27 +26,11 @@ export default function Signup() {
     return '';
   };
 
-  const checkUsernameExists = async username => {
-    try {
-      const res = await fetch(`${API_BASE_URL}/api/check-username/?username=${encodeURIComponent(username)}`);
-      const data = await res.json();
-      return data.exists;
-    } catch {
-      return false;
-    }
-  };
-
   const handleSubmit = async e => {
     e.preventDefault();
     const validationError = validate();
     if (validationError) {
       setError(validationError);
-      return;
-    }
-    // Check for duplicate username before submitting
-    const usernameExists = await checkUsernameExists(form.username);
-    if (usernameExists) {
-      setError('Username already exists. Please choose another.');
       return;
     }
     try {

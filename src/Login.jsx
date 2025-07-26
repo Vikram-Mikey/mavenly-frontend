@@ -10,12 +10,30 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [checkingAuth, setCheckingAuth] = useState(true);
 
+  // Logout function for use elsewhere in the app
+  const handleLogout = async () => {
+    try {
+      await fetch(`${API_BASE_URL}/api/logout/`, {
+        method: 'POST',
+        credentials: 'include',
+      });
+    } catch {}
+    // Always redirect to login and clear state
+    setForm({ username: '', password: '' });
+    setError('');
+    navigate('/login');
+  };
+
   useEffect(() => {
     fetch(`${API_BASE_URL}/api/profile/`, { credentials: 'include' })
       .then(res => res.json())
       .then(data => {
-        if (!data.error) navigate('/profile');
-        else setCheckingAuth(false);
+        if (!data.error) {
+          setError('');
+          navigate('/profile');
+        } else {
+          setCheckingAuth(false);
+        }
       })
       .catch(() => setCheckingAuth(false));
   }, [navigate]);
@@ -41,8 +59,12 @@ export default function Login() {
         body: JSON.stringify(form),
       });
       const data = await res.json();
-      if (res.ok) navigate('/profile');
-      else setError(data.error || 'Login failed.');
+      if (res.ok) {
+        setError('');
+        navigate('/profile');
+      } else {
+        setError(data.error || 'Login failed.');
+      }
     } catch {
       setError('Network error. Please try again.');
     }
@@ -81,6 +103,9 @@ export default function Login() {
           </button>
         </div>
         <button type="submit">Login</button>
+        <button type="button" className="logout-btn" onClick={handleLogout} style={{marginTop: '1rem'}}>
+          Logout
+        </button>
         {error && <div className="error">{error}</div>}
         <div className="auth-footer">
           <span onClick={() => navigate('/forgot-password')}>Forgot password?</span>

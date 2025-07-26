@@ -1,31 +1,34 @@
 .signup-popup-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: none;
+  background: rgba(0,0,0,0.12);
   z-index: 1000;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   backdrop-filter: blur(2px);
-  padding: 0rem 0rem 0rem 0rem;
+  padding: 4vh 0 0 0;
   margin: 0;
+  overflow-y: auto;
 }
 .signup-popup-modal {
-  box-shadow: 0 8px 32px #0003;
+  background: #fff;
+  border-radius: 18px;
+  border: 1.5px solid #e0e7ef;
+  box-shadow: 0 8px 32px #0002;
   box-sizing: border-box;
-  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  padding: 1.5rem 1.2rem 1.2rem 1.2rem;
   min-width: 0;
   width: 100%;
-  max-width: 400px;
+  max-width: 370px;
   max-height: 95vh;
-  margin: 0 !important;
+  margin: 4vh 0 0 0 !important;
   overflow: visible;
   position: relative;
   animation: popup-fade-in 0.2s;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 0 !important;
   overflow-y: auto;
   scrollbar-width: none;
   padding-bottom: 0 !important;
@@ -64,9 +67,15 @@
   to { opacity: 1; transform: scale(1); }
 }
 @media (max-width: 500px) {
+  .signup-popup-overlay {
+    align-items: flex-start;
+    padding: 2vh 0 0 0;
+  }
   .signup-popup-modal {
     max-width: 98vw;
     width: 98vw;
-    padding: 1.2rem 0.5rem 1rem 0.5rem;
+    padding: 1rem 0.5rem 0.8rem 0.5rem;
+    margin: 2vh 0 0 0 !important;
+    border-radius: 14px;
   }
 }

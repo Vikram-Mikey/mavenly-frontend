@@ -82,6 +82,19 @@ button[type="submit"]:hover {
   text-align: center;
   color: #64748b;
   font-size: 0.98rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+@media (max-width: 500px) {
+  .auth-footer {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+  }
 }
 .auth-footer span {
   color: #2563eb;

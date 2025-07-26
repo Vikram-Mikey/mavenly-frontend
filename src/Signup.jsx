@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './styles/signup.css';
 import API_BASE_URL from './config';
@@ -9,6 +9,14 @@ export default function Signup() {
     username: '', email: '', phone: '', password: '', confirmPassword: ''
   });
   const [error, setError] = useState('');
+
+  // Force logout on mount to clear any existing session
+  useEffect(() => {
+    fetch(`${API_BASE_URL}/api/logout/`, {
+      method: 'POST',
+      credentials: 'include',
+    });
+  }, []);
 
   const handleChange = e => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));

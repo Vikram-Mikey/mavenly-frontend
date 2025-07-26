@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Signup.css'; // Assuming you have a CSS file for styling
+import './styles/signup.css';
 import API_BASE_URL from './config';
 
 export default function Signup() {

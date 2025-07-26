@@ -73,8 +73,8 @@ export default function Login() {
   if (checkingAuth) return <div className="loading">Checking authentication...</div>;
 
   return (
-    <section className="auth-page">
-      <form className="auth-form" onSubmit={handleSubmit} noValidate>
+    <section className="page-login">
+      <form className="login-container auth-form" onSubmit={handleSubmit} noValidate>
         <h1>Login</h1>
         <input
           name="username"

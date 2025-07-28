@@ -1,4 +1,48 @@
 /* Login and Auth styles */
+@media (max-width: 500px) {
+  .auth-form {
+    max-width: 95vw;
+    padding: 1.2rem 0.7rem 1.2rem 0.7rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px #0001;
+  }
+  .password-field {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+  .password-field input {
+    flex: 1;
+    min-width: 0;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    margin-right: 0;
+  }
+  .toggle {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.3rem;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #4998da;
+    z-index: 2;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+  }
+}
 
 .page-login {
   background: #000;

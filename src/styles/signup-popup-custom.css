@@ -71,4 +71,35 @@
     margin: 2vh 0 0 0 !important;
     border-radius: 14px;
   }
+  .password-field {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    position: relative;
+  }
+  .password-field input {
+    flex: 1;
+    min-width: 0;
+    box-sizing: border-box;
+    width: 100%;
+  }
+  .toggle {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.3rem;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #2563eb;
+    z-index: 2;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }

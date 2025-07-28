@@ -1,7 +1,8 @@
+/* signup-popup-custom.css - Custom styles for SignupPopup modal */
 .signup-popup-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.12);
+  background: rgba(0,0,0,0.18);
   z-index: 1000;
   display: flex;
   align-items: flex-start;
@@ -26,18 +27,10 @@
   overflow: visible;
   position: relative;
   animation: popup-fade-in 0.2s;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: block;
   overflow-y: auto;
   scrollbar-width: none;
   padding-bottom: 0 !important;
-}
-.signup-popup-modal:hover {
-  overflow-y: auto;
-}
-.signup-popup-modal::-webkit-scrollbar {
-  display: none;
 }
 .signup-popup-close {
   position: absolute;

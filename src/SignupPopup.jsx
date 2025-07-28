@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Signup from './Signup';
-import './styles/signup-popup.css';
+import './styles/signup-popup-custom.css';
 
 export default function SignupPopup({ open, onClose }) {
   if (!open) return null;

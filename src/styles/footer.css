@@ -242,26 +242,31 @@
   align-items: center;
   width: 100%;
   max-width: 320px;
+  gap: 0.5rem;
 }
 .footer-contact-right-input {
-  flex: 1;
+  flex: 1 1 0;
+  min-width: 200px;
   padding: 0.6rem;
-  border-radius: 8px 0 0 8px;
+  border-radius: 8px;
   border: 1px solid #ccc;
   font-size: 1rem;
   outline: none;
-  min-width: 0;
+  box-sizing: border-box;
 }
 .footer-contact-right-btn {
   padding: 0.6rem 1.1rem;
-  border-radius: 0 8px 8px 0;
+  border-radius: 8px;
   background: #ff5757;
+  width: 30px;
+  height: 40px;
   color: #fff;
   font-weight: bold;
   font-size: 1rem;
   border: none;
   cursor: pointer;
   white-space: nowrap;
+  box-sizing: border-box;
 }
 .footer-dev-section{
   width: 100%;

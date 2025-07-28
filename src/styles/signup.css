@@ -50,60 +50,49 @@ display: flex;
 .auth-form input:focus {
   border-color: #2563eb;
 }
-/* Password field/toggle styles - match popup */
+/* Password field/toggle styles - grouped and clean */
+/* Password field/toggle always aligned horizontally and same height */
 .password-field {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
   position: relative;
-  display: flex;
-  align-items: center;
+  gap: 0.5rem;
 }
-.password-field input {
-  flex: 1;
-  width: 100%;
-  box-sizing: border-box;
-}
-.toggle {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  font-size: 1.3rem;
-  cursor: pointer;
-  color: #6c63ff;
-  padding: 0;
-  z-index: 2;
-  width: 32px;
-  height: 32px;
-}
-/* Desktop password field/toggle styles */
-.password-field {
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: 100%;
-}
-.password-field input {
-  flex: 1 1 auto;
-  width: 100%;
-  box-sizing: border-box;
-  min-width: 0;
-}
-.toggle {
-  position: static;
-  margin-left: 8px;
-  font-size: 1.3rem;
-  background: none;
-  border: none;
-  color: #6c63ff;
-  cursor: pointer;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
-  padding: 0;
+  .password-field input {
+    flex: 1 1 auto;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    border-radius: 8px;
+    cursor: pointer;
+    height: 40px;
+    font-size: 1rem;
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+  }
+  .toggle {
+    position: static;
+    margin-left: 0.5rem;
+    font-size: 1.4rem;
+    background: none;
+    border: none;
+    color: #6c63ff;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    padding: 0;
+    transition: background 0.2s;
+  }
+.toggle:active, .toggle:focus {
+  background: #f0f4ff;
+  outline: none;
 }
 @media (max-width: 500px) {
   .password-field {

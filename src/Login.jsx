@@ -49,22 +49,15 @@ export default function Login() {
         credentials: 'include',
         body: JSON.stringify(form),
       });
-      let data = {};
-      try {
-        data = await res.json();
-      } catch (jsonErr) {
-        setError('Invalid server response.');
-        return;
-      }
+      const data = await res.json();
       if (res.ok) {
         setError('');
         navigate('/'); // Redirect to home page after login
       } else {
-        // Show backend error details for easier debugging
-        setError(data.error || data.detail || `Login failed. Status: ${res.status}`);
+        setError(data.error || 'Login failed.');
       }
-    } catch (err) {
-      setError(`Network error. ${err?.message || 'Please try again.'}`);
+    } catch {
+      setError('Network error. Please try again.');
     }
   };
 

@@ -10,7 +10,7 @@
 /* Navbar styles */
 .navbar {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   padding: 1.5rem 2rem;
   background: #000;
@@ -18,6 +18,33 @@
   position: relative;
   z-index: 100;
 }
+
+@media (min-width: 901px) {
+  .navbar {
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+  }
+  .nav-logo-img {
+    margin-right: 1.5rem !important;
+    display: inline-block !important;
+    vertical-align: middle !important;
+  }
+  .nav-links {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 1.5rem !important;
+    margin-left: 0 !important;
+  }
+  .navbar-link, .navbar-btn, .nav-btn {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+  }
+}
+
 .nav-logo {
   font-size: 2rem;
   font-weight: bold;
@@ -52,7 +79,6 @@
   transition: background 0.2s, color 0.2s, box-shadow 0.2s;
   text-decoration: none;
   box-shadow: 0 2px 8px #2563eb22;
-}
 .navbar-link:hover, .navbar-link:focus {
   background: linear-gradient(90deg, #38bdf8 60%, #2563eb 100%);
   color: #fff;

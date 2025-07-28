@@ -79,6 +79,7 @@
   transition: background 0.2s, color 0.2s, box-shadow 0.2s;
   text-decoration: none;
   box-shadow: 0 2px 8px #2563eb22;
+}
 .navbar-link:hover, .navbar-link:focus {
   background: linear-gradient(90deg, #38bdf8 60%, #2563eb 100%);
   color: #fff;

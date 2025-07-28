@@ -39,13 +39,6 @@
 .signup-popup-close:hover {
   color: #e74c3c;
 }
-@media (max-width: 500px) {
-  .signup-popup-close {
-    top: 8px;
-    right: 10px;
-    font-size: 2.5rem;
-  }
-}
 .signup-popup-title {
   font-size: 2rem;
   font-weight: 700;
@@ -104,18 +97,8 @@
   align-items: center;
   justify-content: center;
 }
-@media (max-width: 500px) {
-  .password-field input {
-    font-size: 0.98rem;
-    padding-right: 40px;
-  }
-  .toggle {
-    right: 6px;
-    font-size: 1.5rem;
-    width: 28px;
-    height: 28px;
-  }
-}
+
+/* Consistent button style for all widths */
 .signup-popup-btn {
   background: linear-gradient(90deg,#6c63ff 0%,#4e54c8 100%);
   color: #fff;
@@ -127,6 +110,11 @@
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(76,84,200,0.08);
   transition: background 0.2s;
+  width: 100%;
+  box-sizing: border-box;
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
 }
 .signup-popup-btn:disabled {
   background: #bdbdbd;

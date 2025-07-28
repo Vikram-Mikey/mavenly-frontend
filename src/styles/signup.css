@@ -8,7 +8,7 @@ display: flex;
   background: #000;
 }
 
-@media (min-width: 901px) and (max-width: 1070px) {
+@media (min-width: 500px) and (max-width: 1070px) {
   .auth-page {
     min-height: 70vh;
     padding-top: 2rem;
@@ -50,6 +50,7 @@ display: flex;
 .auth-form input:focus {
   border-color: #2563eb;
 }
+/* Password field/toggle styles - match popup */
 .password-field {
   position: relative;
   display: flex;
@@ -57,16 +58,23 @@ display: flex;
 }
 .password-field input {
   flex: 1;
+  width: 100%;
+  box-sizing: border-box;
 }
 .toggle {
   position: absolute;
-  right: 12px;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
   background: none;
   border: none;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   cursor: pointer;
-  color: #2563eb;
+  color: #6c63ff;
   padding: 0;
+  z-index: 2;
+  width: 32px;
+  height: 32px;
 }
 button[type="submit"] {
   background: #2563eb;

@@ -1,3 +1,34 @@
+@media (max-width: 600px) {
+  .programs-container-custom {
+    gap: 1.2rem;
+    padding: 0 0.5rem;
+  }
+  .programs-row {
+    flex-direction: column;
+    gap: 1.2rem;
+    align-items: stretch;
+  }
+  .program-card-custom {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+    font-size: 1rem;
+    word-break: break-word;
+    padding: 0.7rem 0.5rem;
+  }
+  .program-img-custom {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    object-fit: cover;
+  }
+  .program-rating-custom {
+    margin-bottom: 6px;
+  }
+}
 /* Programs page custom layout styles */
 
 .programs-container-custom {

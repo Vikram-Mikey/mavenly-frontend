@@ -1,3 +1,27 @@
+@media (max-width: 768px) {
+  .footer-contact-right {
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    gap: 1rem;
+  }
+  .footer-contact-right-img {
+    margin: 0 auto 1rem auto;
+    display: block;
+    width: 80px;
+    height: 80px;
+    max-width: 100%;
+    object-fit: contain;
+    order: 0;
+  }
+  .footer-contact-right-title,
+  .footer-contact-right-desc,
+  .footer-contact-right-form {
+    order: unset;
+    width: 100%;
+  }
+}
 /* Footer styles */
 .footer {
   text-align: center;
@@ -12,8 +36,43 @@
   align-items: flex-start;
   flex-wrap: wrap;
 }
-.footer, .footer * {
-  text-align: center !important;
+/* Removed global text-align: center !important to allow flexbox centering to work properly */
+@media (max-width: 500px) {
+  .footer {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .footer-contact-section {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 1.5rem;
+    padding: 1.5rem 1vw;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .footer-contact-left,
+  .footer-contact-center,
+  .footer-contact-right {
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    min-width: unset;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0 0 1.2rem 0;
+  }
+  .footer-dev-img {
+    margin: 0 auto 1rem auto;
+    display: block;
+    width: 80px;
+    height: 80px;
+    max-width: 100%;
+    object-fit: contain;
+  }
 }
 .footer > div {
   margin-bottom: 1rem;
@@ -335,11 +394,13 @@
 @media (max-width: 768px) {
   .footer-contact-right-form {
     flex-direction: column;
-    align-items: stretch;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     max-width: 100%;
     text-align: center;
     gap: 0.75rem;
+    margin: 0 auto;
   }
   .footer-contact-right-input,
   .footer-contact-right-btn {
@@ -347,6 +408,9 @@
     border-radius: 8px;
     font-size: 1rem;
     box-sizing: border-box;
+    text-align: center;
+    margin: 0 auto;
+    display: block;
   }
   .footer-contact-right-btn {
     margin-top: 0;

@@ -1,3 +1,29 @@
+/* Featured Online Programs section heading and description styles */
+.featured-programs-section h2 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #4779da;
+  background: linear-gradient(90deg, #4779da 0%, #ff5757 100%);
+  background-clip: text;
+  margin-bottom: 0.5rem;
+  letter-spacing: 1px;
+  text-align: center;
+  padding: 0.5rem 0;
+}
+.featured-programs-section p {
+  font-size: 1.15rem;
+  color: #333;
+  background: #000;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(60,60,120,0.08);
+  padding: 1rem 1.5rem;
+  margin-bottom: 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
 @media (min-width: 320px) and (max-width: 900px) {
   .program-card,
   .program-card.mobile {
@@ -273,14 +299,8 @@
   cursor: pointer;
   margin-bottom: 0;
 }
-.featured-programs-section {
-  width: 100vw;
-  margin-top: 0;
-  text-align: center;
-  background: #181818;
-  padding: 2rem 0;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.04);
-}
+  
+
 .featured-programs-section h2 {
   font-weight: bold;
   color: #4998da;
@@ -891,20 +911,26 @@
 }
 
 /* Responsive: featured programs section and program cards */
-@media (max-width: 1150px) {
-  .featured-programs-section {
-    padding: 1.2rem 0.2rem;
+
+/* Center select-type-dev in mobile view */
+@media (max-width: 900px) {
+  .featured-programs-flex.mobile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    width: 100%;
   }
-  .programs-container {
-    gap: 1.2rem;
+  .select-type-dev.mobile {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
-  .program-card {
-    width: 13rem;
-    min-width: 13rem;
-    max-width: 13rem;
-    font-size: 0.98rem;
-  }
-}
+  
 /* Fix overflow for featured-programs-section and navbar between 742px and 1346px */
 @media (min-width: 742px) and (max-width: 1346px) {
   .featured-programs-flex {
@@ -963,7 +989,6 @@
   }
 }
 
-/* Show two program cards per line between 901px and 1070px (must be after 742px–1346px flexbox media query) */
 @media (min-width: 903px) and (max-width: 1070px) {
   .featured-programs-section .featured-programs-flex {
     display: flex !important;
@@ -1051,4 +1076,5 @@
   text-align: center;
   justify-content: center;
   align-items: center;
+}
 }

@@ -197,7 +197,6 @@ function Navbar() {
           ))}
         </div>
       )}
-      <span className="navbar-sidebar-link" onClick={() => { setSidebarOpen(false); navigate('/placement'); }}>Placement</span>
       <span className="navbar-sidebar-link" onClick={() => { setSidebarOpen(false); navigate('/about'); }}>About</span>
       <span className="navbar-sidebar-link" onClick={() => { setSidebarOpen(false); navigate('/contact'); }}>Contact</span>
       {!isLoggedIn && (
@@ -307,9 +306,9 @@ function Navbar() {
             </ul>
           )}
         </div>
-        <Link to="/placement" className="navbar-link" onClick={e => location.pathname === '/placement' && e.preventDefault() }>Placement</Link>
         <Link to="/about" className="navbar-link" onClick={e => location.pathname === '/about' && e.preventDefault() }>About</Link>
         <Link className="navbar-link" to="/contact" onClick={e => location.pathname === '/contact' && e.preventDefault()} >Contact</Link>
+        {/* Placement button removed */}
         {isLoggedIn && (
           photoUrl ? (
             <img

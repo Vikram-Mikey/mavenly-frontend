@@ -43,8 +43,6 @@ import ScrollToTop from './ScrollToTop';
 import ForgotPassword from './ForgotPassword';
 import Checkout from './Checkout';
 import Profile from './Profile';
-import Placement from './pages/Placement';
-import Testimonials from './pages/Testimonials';
 import NotFound from './pages/NotFound';
 
 function getCookie(name) {
@@ -103,8 +101,6 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/placement" element={<Placement />} />
-        <Route path="/testimonial" element={<Testimonials />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />

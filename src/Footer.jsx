@@ -1,7 +1,9 @@
 // Helper to scroll to top and navigate
 function scrollToTopAndNavigate(navigate, path) {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  navigate(path);
+  setTimeout(() => {
+    window.scrollTo({ top: 0, behavior: 'auto' });
+    navigate(path);
+  }, 10);
 }
 import { useNavigate } from 'react-router-dom';
 import './styles/footer.css';
@@ -21,7 +23,7 @@ function Footer() {
               <div className="footer-help-contact">Have any questions or need assistance? Our team is always here to help—reach out to us</div>
             </div>
             <div className="footer-dev-contact-button">
-              <span className="footer-contactus-label" style={{cursor: 'pointer'}} onClick={() => window.location.href='/contact'}>Contact Us</span>
+              <span className="footer-contactus-label" style={{cursor: 'pointer'}} onClick={() => scrollToTopAndNavigate(navigate, '/contact')}>Contact Us</span>
             </div>
           </div>
         </section>
@@ -38,20 +40,19 @@ function Footer() {
           <div className="footer-contact-center">
             <div className="footer-contact-center-col">
               <div className="footer-contact-center-col-title">Services</div>
-              <div className="footer-contact-center-col-item" style={{cursor:'pointer'}} onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); scrollToTopAndNavigate(navigate, '/programs'); }}>E-Learning</div>
-              <div className="footer-contact-center-col-item" style={{cursor:'pointer'}} onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); scrollToTopAndNavigate(navigate, '/programs'); }}>Bootcamp</div>
-              <div className="footer-contact-center-col-item" style={{cursor:'pointer'}} onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); scrollToTopAndNavigate(navigate, '/programs'); }}>Webinar</div>
-              <div className="footer-contact-center-col-item" style={{cursor:'pointer'}} onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); scrollToTopAndNavigate(navigate, '/programs'); }}>Certifications</div>
-              <div className="footer-contact-center-col-item" style={{cursor:'pointer'}} onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); scrollToTopAndNavigate(navigate, '/testimonial'); }}>Mentoring</div>
-              <div className="footer-contact-center-col-item" style={{cursor:'pointer'}} onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); scrollToTopAndNavigate(navigate, '/contact'); }}>Corporate Services</div>
+              <div className="footer-contact-center-col-item" style={{cursor:'pointer'}} onClick={() => scrollToTopAndNavigate(navigate, '/programs')}>E-Learning</div>
+              <div className="footer-contact-center-col-item" style={{cursor:'pointer'}} onClick={() => scrollToTopAndNavigate(navigate, '/programs')}>Bootcamp</div>
+              <div className="footer-contact-center-col-item" style={{cursor:'pointer'}} onClick={() => scrollToTopAndNavigate(navigate, '/programs')}>Webinar</div>
+              <div className="footer-contact-center-col-item" style={{cursor:'pointer'}} onClick={() => scrollToTopAndNavigate(navigate, '/programs')}>Certifications</div>
+              <div className="footer-contact-center-col-item" style={{cursor:'pointer'}} onClick={() => scrollToTopAndNavigate(navigate, '/contact')}>Mentoring</div>
+              <div className="footer-contact-center-col-item" style={{cursor:'pointer'}} onClick={() => scrollToTopAndNavigate(navigate, '/contact')}>Corporate Services</div>
             </div>
             <div className="footer-contact-center-col">
               <div className="footer-contact-center-col-title">Company</div>
-              <div className="footer-contact-center-col-item" style={{cursor:'pointer'}} onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); scrollToTopAndNavigate(navigate, '/about'); }}>About us</div>
-              <div className="footer-contact-center-col-item" style={{cursor:'pointer'}} onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); scrollToTopAndNavigate(navigate, '/testimonial'); }}>Leadership</div>
-              <div className="footer-contact-center-col-item" style={{cursor:'pointer'}} onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); scrollToTopAndNavigate(navigate, '/placement'); }}>Careers</div>
-              <div className="footer-contact-center-col-item" style={{cursor:'pointer'}} onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); scrollToTopAndNavigate(navigate, '/testimonial'); }}>Testimonials</div>
-              <div className="footer-contact-center-col-item-link" onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); window.location.href='/refund-cancellation-policy'; }}>Refund/Cancellation Policy</div>
+              <div className="footer-contact-center-col-item" style={{cursor:'pointer'}} onClick={() => scrollToTopAndNavigate(navigate, '/about')}>About us</div>
+              <div className="footer-contact-center-col-item" style={{cursor:'pointer'}} onClick={() => scrollToTopAndNavigate(navigate, '/testimonial')}>Leadership</div>
+              <div className="footer-contact-center-col-item" style={{cursor:'pointer'}} onClick={() => scrollToTopAndNavigate(navigate, '/contact')}>Careers</div>
+              <div className="footer-contact-center-col-item-link" style={{cursor:'pointer'}} onClick={() => scrollToTopAndNavigate(navigate, '/refund-cancellation-policy')}>Refund/Cancellation Policy</div>
             </div>
           </div>
           <div className="footer-contact-right">
@@ -64,7 +65,7 @@ function Footer() {
             <div className="footer-contact-right-desc">
               Sign up our newsletter to get update information, news and free insight.
             </div>
-            <form className="footer-contact-right-form" onSubmit={e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); navigate('/signup'); }}>
+            <form className="footer-contact-right-form" onSubmit={e => { e.preventDefault(); scrollToTopAndNavigate(navigate, '/signup'); }}>
               <input
                 type="email"
                 placeholder="Your email"

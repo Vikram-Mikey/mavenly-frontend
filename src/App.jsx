@@ -43,6 +43,8 @@ import ScrollToTop from './ScrollToTop';
 import ForgotPassword from './ForgotPassword';
 import Checkout from './Checkout';
 import Profile from './Profile';
+import Placement from './pages/Placement';
+import Testimonial from './pages/Testimonials';
 import NotFound from './pages/NotFound';
 
 function getCookie(name) {
@@ -96,12 +98,13 @@ function App() {
         <Route path="/freelancing/Finance-Program" element={<FreelancingFinanceProgram />} />
         <Route path="/freelancing/UI-Designing" element={<FreelancingUIDesigning />} />
         <Route path="/freelancing/Full-Stack-Development" element={<FreelancingFullStackDevelopment />} />
-        <Route path="/addcart" element={<AddCart />} />
-        <Route path="/refund-cancellation-policy" element={<RefundCancellationPolicy />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/checkout" element={<Checkout />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="*" element={<NotFound />} />
+           <Route path="/addcart" element={<AddCart />} />
+           <Route path="/refund-cancellation-policy" element={<RefundCancellationPolicy />} />
+           <Route path="/forgot-password" element={<ForgotPassword />} />
+           <Route path="/checkout" element={<Checkout />} />
+           <Route path="/profile" element={<Profile />} />
+           <Route path="*" element={<NotFound />} />
+
       </Routes>
       <Footer />
       <WhatsAppButton />

@@ -54,7 +54,13 @@ export default function Login() {
         setError('');
         navigate('/'); // Redirect to home page after login
       } else {
-        setError(data.error || 'Login failed.');
+        if (data.error === 'Username or email not found.') {
+          setError('Username or email not found.');
+        } else if (data.error === 'Incorrect password.') {
+          setError('Incorrect password.');
+        } else {
+          setError(data.error || 'Login failed.');
+        }
       }
     } catch {
       setError('Network error. Please try again.');

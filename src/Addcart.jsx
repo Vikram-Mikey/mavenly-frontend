@@ -37,19 +37,19 @@ function AddCart() {
   const [referralCode, setReferralCode] = useState('');
   const [referralApplied, setReferralApplied] = useState(false);
   const [referralError, setReferralError] = useState('');
-  const userId = getCookie('user_id');
+  const sessionId = getCookie('sessionid');
   const [appliedReferral, setAppliedReferral] = useState(() => {
-    // On mount, try to load referral from localStorage per user
+    // On mount, try to load referral from localStorage per session
     try {
-      if (!userId) return null;
-      const ref = JSON.parse(localStorage.getItem(`applied_referral_${userId}`));
+      if (!sessionId) return null;
+      const ref = JSON.parse(localStorage.getItem(`applied_referral_${sessionId}`));
       return ref || null;
     } catch {
       return null;
     }
   });
   const navigate = useNavigate();
-  const isLoggedIn = !!userId;
+  const isLoggedIn = !!sessionId;
 
   // Helper to get price by plan
   const getPlanPrice = (plan) => {
@@ -64,7 +64,7 @@ function AddCart() {
       navigate('/login');
       return;
     }
-    const cartData = JSON.parse(localStorage.getItem(`cart_${userId}`) || '[]');
+    const cartData = JSON.parse(localStorage.getItem(`cart_${sessionId}`) || '[]');
     setCart(cartData);
     // Calculate total
     let sum = 0;
@@ -76,12 +76,12 @@ function AddCart() {
       sum = sum - Math.round(sum * appliedReferral.discount);
     }
     setTotal(sum);
-  }, [isLoggedIn, navigate, userId, appliedReferral]);
+  }, [isLoggedIn, navigate, sessionId, appliedReferral]);
 
   const removeFromCart = idxToRemove => {
     const updatedCart = cart.filter((_, idx) => idx !== idxToRemove);
     setCart(updatedCart);
-    localStorage.setItem(`cart_${userId}` , JSON.stringify(updatedCart));
+    localStorage.setItem(`cart_${sessionId}` , JSON.stringify(updatedCart));
     // Recalculate total
     let sum = 0;
     updatedCart.forEach(item => {
@@ -160,13 +160,13 @@ function AddCart() {
                     setReferralError('Invalid referral code.');
                     setAppliedReferral(null);
                     setReferralApplied(false);
-                    localStorage.removeItem(`applied_referral_${userId}`);
+                    localStorage.removeItem(`applied_referral_${sessionId}`);
                     return;
                   }
                   setReferralApplied(true);
                   setAppliedReferral(found);
-                  // Save to localStorage for checkout page, per user
-                  localStorage.setItem(`applied_referral_${userId}`, JSON.stringify(found));
+                  // Save to localStorage for checkout page, per session
+                  localStorage.setItem(`applied_referral_${sessionId}`, JSON.stringify(found));
                 }}
                 disabled={referralApplied}
               >
@@ -187,7 +187,7 @@ function AddCart() {
                 setAppliedReferral(null);
                 setReferralApplied(false);
                 setReferralCode('');
-                localStorage.removeItem(`applied_referral_${userId}`);
+                localStorage.removeItem(`applied_referral_${sessionId}`);
               }}
             >Remove</button>
           </div>

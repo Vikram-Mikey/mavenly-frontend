@@ -134,7 +134,7 @@ function ProgramDevSection({ className, imgSrc, imgAlt }) {
     e.preventDefault();
     try {
       const API_BASE_URL = (await import('./config.js')).default;
-      const res = await fetch(`${API_BASE_URL}/api/program-enquiry-email/`, {
+      const res = await fetch(`${API_BASE_URL}/api/program-dev-enquiry-email/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

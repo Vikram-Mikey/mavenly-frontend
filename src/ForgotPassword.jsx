@@ -20,7 +20,7 @@ function ForgotPassword() {
     const res = await fetch(`${API_BASE_URL}/api/forgot-password-otp/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username })
+      body: JSON.stringify({ email: username })
     });
     const data = await res.json();
     if (res.ok) {

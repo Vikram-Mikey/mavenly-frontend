@@ -20,7 +20,7 @@ function Contact() {
     e.preventDefault();
     try {
       const API_BASE_URL = (await import('./config.js')).default;
-      const res = await fetch(`${API_BASE_URL}/api/enquiry-email/`, {
+      const res = await fetch(`${API_BASE_URL}/api/contact-enquiry-email/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

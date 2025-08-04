@@ -84,7 +84,7 @@ export default function Profile() {
     setMessage('Logging out...');
     setMessageType('');
     try {
-      const res = await fetch(`${API_BASE_URL}/api/logout/`, {
+      const res = await fetch(`${API_BASE_URL}/logout/`, {
         method: 'POST',
         credentials: 'include',
       });

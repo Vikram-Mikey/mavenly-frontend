@@ -10,19 +10,6 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [checkingAuth, setCheckingAuth] = useState(true);
 
-  // Logout function for use elsewhere in the app
-  const handleLogout = async () => {
-    try {
-      await fetch(`${API_BASE_URL}/api/logout/`, {
-        method: 'POST',
-        credentials: 'include',
-      });
-    } catch {}
-    // Always redirect to login and clear state
-    setForm({ username: '', password: '' });
-    setError('');
-    navigate('/login');
-  };
 
   useEffect(() => {
     // Remove profile fetch; just set checkingAuth to false on mount

@@ -100,9 +100,6 @@ export default function Login() {
           </button>
         </div>
         <button type="submit">Login</button>
-        <button type="button" className="logout-btn" onClick={handleLogout} style={{marginTop: '1rem'}}>
-          Logout
-        </button>
         {error && <div className="error">{error}</div>}
         <div className="auth-footer">
           <span onClick={() => navigate('/forgot-password')}>Forgot password?</span>

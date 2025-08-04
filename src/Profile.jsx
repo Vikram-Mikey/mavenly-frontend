@@ -79,9 +79,28 @@ export default function Profile() {
     }
   };
 
-  const handleLogout = () => {
-    fetch(`${API_BASE_URL}/api/logout/`, { method: 'POST', credentials: 'include' })
-      .finally(() => navigate('/'));
+  // Logout function: removes session from database and redirects to login
+  const handleLogout = async () => {
+    setMessage('Logging out...');
+    setMessageType('');
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/logout/`, {
+        method: 'POST',
+        credentials: 'include',
+      });
+      if (res.ok) {
+        setMessage('Logged out successfully.');
+        setMessageType('success');
+        setTimeout(() => navigate('/login'), 500);
+      } else {
+        const data = await res.json();
+        setMessage(data.error || 'Logout failed.');
+        setMessageType('error');
+      }
+    } catch {
+      setMessage('Network error.');
+      setMessageType('error');
+    }
   };
 
   const renderField = (label, field) => (

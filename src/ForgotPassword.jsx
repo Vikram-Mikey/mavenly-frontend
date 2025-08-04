@@ -4,7 +4,7 @@ import API_BASE_URL from './config.js';
 import './styles/forgotpassword.css';
 
 function ForgotPassword() {
-  const [identifier, setIdentifier] = useState('');
+  const [username, setUsername] = useState('');
   const [step, setStep] = useState(1);
   const [otp, setOtp] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -17,10 +17,10 @@ function ForgotPassword() {
     e.preventDefault();
     setError('');
     setSuccess('');
-    const res = await fetch(`${API_BASE_URL}/api/forgot-password-otp/`, {
+    const res = await fetch(`${API_BASE_URL}/api/forgot-password/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ identifier })
+      body: JSON.stringify({ username })
     });
     const data = await res.json();
     if (res.ok) {
@@ -38,7 +38,7 @@ function ForgotPassword() {
     const res = await fetch(`${API_BASE_URL}/api/forgot-password-verify/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ identifier, otp, new_password: newPassword })
+      body: JSON.stringify({ username, otp, new_password: newPassword })
     });
     const data = await res.json();
     if (res.ok) {
@@ -55,7 +55,7 @@ function ForgotPassword() {
         <h1>Forgot Password</h1>
         {step === 1 && (
           <form className="auth-form" onSubmit={handleSendOtp}>
-            <input type="text" placeholder="Username or Email" value={identifier} onChange={e => setIdentifier(e.target.value)} required />
+            <input type="text" placeholder="Username or Email" value={username} onChange={e => setUsername(e.target.value)} required />
             <button type="submit">Send OTP</button>
           </form>
         )}

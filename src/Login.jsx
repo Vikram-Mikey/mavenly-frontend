@@ -52,7 +52,7 @@ export default function Login() {
       const data = await res.json();
       if (res.ok) {
         setError('');
-        navigate('/'); // Redirect to home page after login
+        navigate('/profile'); // Redirect to profile page after login
       } else {
         if (data.error === 'Username or email not found.') {
           setError('Username or email not found.');

@@ -38,18 +38,22 @@ function AddCart() {
   const [referralApplied, setReferralApplied] = useState(false);
   const [referralError, setReferralError] = useState('');
   const sessionId = getCookie('sessionid');
+  console.log('[AddCart] sessionId:', sessionId);
   const [appliedReferral, setAppliedReferral] = useState(() => {
     // On mount, try to load referral from localStorage per session
     try {
       if (!sessionId) return null;
       const ref = JSON.parse(localStorage.getItem(`applied_referral_${sessionId}`));
+      console.log('[AddCart] Loaded appliedReferral from localStorage:', ref);
       return ref || null;
-    } catch {
+    } catch (e) {
+      console.error('[AddCart] Error loading appliedReferral:', e);
       return null;
     }
   });
   const navigate = useNavigate();
   const isLoggedIn = !!sessionId;
+  console.log('[AddCart] isLoggedIn:', isLoggedIn);
 
   // Helper to get price by plan
   const getPlanPrice = (plan) => {
@@ -61,10 +65,12 @@ function AddCart() {
 
   useEffect(() => {
     if (!isLoggedIn) {
+      console.warn('[AddCart] Not logged in, navigating to /login');
       navigate('/login');
       return;
     }
     const cartData = JSON.parse(localStorage.getItem(`cart_${sessionId}`) || '[]');
+    console.log('[AddCart] Loaded cartData:', cartData);
     setCart(cartData);
     // Calculate total
     let sum = 0;

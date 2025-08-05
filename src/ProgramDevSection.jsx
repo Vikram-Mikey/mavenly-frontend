@@ -106,7 +106,7 @@ function ProgramDevSection({ className, imgSrc, imgAlt }) {
     const sessionId = getCookie('sessionid');
     const isLoggedIn = !!sessionId;
     if (!isLoggedIn) {
-      window.location.href = '/login';
+      navigate('/login');
       return;
     }
     const programName = imgAlt;
@@ -123,7 +123,7 @@ function ProgramDevSection({ className, imgSrc, imgAlt }) {
     cart.push({ program: programObj.name, plan: planName, img: programObj.img });
     localStorage.setItem(`cart_${sessionId}`, JSON.stringify(cart));
     setCartMessages(msgs => ({ ...msgs, [planKey]: 'Added to cart!' }));
-    window.location.href = '/addcart';
+    navigate('/addcart');
   };
 
   const handleEnquiryChange = e => {

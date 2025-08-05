@@ -153,7 +153,7 @@ const ProgramReview = ({ programName }) => {
       <li key={r.id || idx} className={fading ? 'fade-out' : ''} style={{background:'#fff',borderRadius:10,boxShadow:'0 2px 12px #0001',marginBottom:18,padding:'18px 18px 12px 18px',position:'relative',transition:'box-shadow 0.2s'}}>
         <div className="review-header" style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:8}}>
           <div style={{display:'flex',alignItems:'center',gap:10}}>
-            <span className="review-name" style={{fontWeight:700,fontSize:16,color:'#2563eb'}}>{r.name}</span>
+            <span className="review-name" style={{fontWeight:700,fontSize:16,color:'#2563eb'}}>{r.user_name || 'Anonymous'}</span>
             <span className="review-stars" style={{fontSize:15,color:'#fbbf24',fontWeight:600}}>{'★'.repeat(Number(r.rating))}{'☆'.repeat(5 - Number(r.rating))}</span>
           </div>
           {adminEmail && adminEmail.trim().toLowerCase() === ADMIN_EMAIL.trim().toLowerCase() && (
@@ -172,7 +172,7 @@ const ProgramReview = ({ programName }) => {
           className={`review-text${!expanded ? ' clamped' : ''}`}
           style={{fontSize:15,color:'#374151',marginBottom:(showReadMore || expanded) ? 0 : 6,whiteSpace:'pre-line',lineHeight:1.7}}
         >
-          {r.review}
+          {r.comment}
         </div>
         {(showReadMore || expanded) && (
           <span

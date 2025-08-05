@@ -96,9 +96,8 @@ const ProgramReview = ({ programName }) => {
     try {
       await axios.post(`${API_BASE_URL}/api/program-reviews/`, {
         program: programName,
-        name: form.name,
-        review: form.review,
-        rating: form.rating.toString(),
+        comment: form.review,
+        rating: form.rating,
       });
       setSubmitted(true);
       setForm({ name: '', review: '', rating: 1 });

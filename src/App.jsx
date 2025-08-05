@@ -56,9 +56,9 @@ function getCookie(name) {
 function App() {
   const [showSignup, setShowSignup] = useState(false);
   useEffect(() => {
-    // Only show popup if not logged in
-    const userId = getCookie('user_id');
-    if (!userId) setShowSignup(true);
+    // Only show popup if not logged in (check sessionid cookie)
+    const sessionId = getCookie('sessionid');
+    if (!sessionId) setShowSignup(true);
   }, []);
   return (
     <Router>

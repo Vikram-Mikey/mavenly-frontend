@@ -103,8 +103,8 @@ function ProgramDevSection({ className, imgSrc, imgAlt }) {
   };
 
   const handleAddCart = (planKey, planName) => {
-    const userId = getCookie('user_id');
-    const isLoggedIn = !!userId;
+    const sessionId = getCookie('sessionid');
+    const isLoggedIn = !!sessionId;
     if (!isLoggedIn) {
       window.location.href = '/login';
       return;
@@ -115,13 +115,13 @@ function ProgramDevSection({ className, imgSrc, imgAlt }) {
       setCartMessages(msgs => ({ ...msgs, [planKey]: 'Program not found! Check the PROGRAMS array and imgAlt value.' }));
       return;
     }
-    const cart = JSON.parse(localStorage.getItem(`cart_${userId}`) || '[]');
+    const cart = JSON.parse(localStorage.getItem(`cart_${sessionId}`) || '[]');
     if (cart.some(item => item.program === programObj.name && item.plan === planName)) {
       setCartMessages(msgs => ({ ...msgs, [planKey]: 'The cart is already added' }));
       return;
     }
     cart.push({ program: programObj.name, plan: planName, img: programObj.img });
-    localStorage.setItem(`cart_${userId}`, JSON.stringify(cart));
+    localStorage.setItem(`cart_${sessionId}`, JSON.stringify(cart));
     setCartMessages(msgs => ({ ...msgs, [planKey]: 'Added to cart!' }));
     window.location.href = '/addcart';
   };

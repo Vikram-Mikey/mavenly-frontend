@@ -26,6 +26,7 @@ function Navbar() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 900);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [authLoading, setAuthLoading] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
   const typePrograms = {
@@ -72,31 +73,55 @@ function Navbar() {
   useEffect(() => {
     // Check login state via backend API
     fetch('/api/profile/', { credentials: 'include' })
-      .then(res => res.ok ? res.json() : null)
-      .then(data => {
-        if (data && data.email) {
-          setIsLoggedIn(true);
-          // Use user id or email for cart key if needed
-          let cart = JSON.parse(localStorage.getItem(`cart_${data.id || data.email}`) || '[]');
-          setCartHasItems(Array.isArray(cart) && cart.length > 0);
-        } else {
+      .then(async res => {
+        if (!res.ok) {
+          // Log error status for debugging
+          console.warn('Profile API error:', res.status);
+          setIsLoggedIn(false);
+          setCartHasItems(false);
+          setAuthLoading(false);
+          return null;
+        }
+        try {
+          const data = await res.json();
+          if (data && data.email) {
+            setIsLoggedIn(true);
+            let cart = JSON.parse(localStorage.getItem(`cart_${data.id || data.email}`) || '[]');
+            setCartHasItems(Array.isArray(cart) && cart.length > 0);
+          } else {
+            setIsLoggedIn(false);
+            setCartHasItems(false);
+          }
+        } catch (err) {
+          console.error('Failed to parse profile response:', err);
           setIsLoggedIn(false);
           setCartHasItems(false);
         }
+        setAuthLoading(false);
       })
-      .catch(() => {
+      .catch((err) => {
+        console.error('Profile API fetch failed:', err);
         setIsLoggedIn(false);
         setCartHasItems(false);
+        setAuthLoading(false);
       });
     // Listen for cart changes in other tabs/windows and in this tab
     const handleStorage = () => {
       fetch('/api/profile/', { credentials: 'include' })
-        .then(res => res.ok ? res.json() : null)
-        .then(data => {
-          if (data && data.email) {
-            let updatedCart = JSON.parse(localStorage.getItem(`cart_${data.id || data.email}`) || '[]');
-            setCartHasItems(Array.isArray(updatedCart) && updatedCart.length > 0);
-          } else {
+        .then(async res => {
+          if (!res.ok) {
+            setCartHasItems(false);
+            return;
+          }
+          try {
+            const data = await res.json();
+            if (data && data.email) {
+              let updatedCart = JSON.parse(localStorage.getItem(`cart_${data.id || data.email}`) || '[]');
+              setCartHasItems(Array.isArray(updatedCart) && updatedCart.length > 0);
+            } else {
+              setCartHasItems(false);
+            }
+          } catch {
             setCartHasItems(false);
           }
         })
@@ -238,6 +263,9 @@ function Navbar() {
     <div className="navbar-sidebar-backdrop" onClick={() => setSidebarOpen(false)} />
   );
 
+  if (authLoading) {
+    return <nav className="navbar"><div className="navbar-loading">Loading...</div></nav>;
+  }
   if (isMobile) {
     return (
       <nav className="navbar">
@@ -270,6 +298,9 @@ function Navbar() {
     );
   }
 
+  if (authLoading) {
+    return <nav className="navbar"><div className="navbar-loading">Loading...</div></nav>;
+  }
   return (
     <nav className="navbar">
       <img src="/mavenly logo.png" alt="Mavenly Logo" className="nav-logo-img" />

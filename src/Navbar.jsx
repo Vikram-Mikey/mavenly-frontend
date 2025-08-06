@@ -99,6 +99,12 @@ function Navbar() {
       setAuthLoading(false);
     };
     checkLoginState();
+    // Listen for authChanged event to refresh login state instantly after login
+    const handleAuthChanged = () => {
+      setAuthLoading(true);
+      checkLoginState();
+    };
+    window.addEventListener('authChanged', handleAuthChanged);
     // Listen for cart changes in other tabs/windows and in this tab
     const handleStorage = async () => {
       try {
@@ -133,6 +139,7 @@ function Navbar() {
     return () => {
       window.removeEventListener('storage', handleStorage);
       window.removeEventListener('resize', handleResize);
+      window.removeEventListener('authChanged', handleAuthChanged);
       localStorage.setItem = origSetItem;
     };
   }, []);

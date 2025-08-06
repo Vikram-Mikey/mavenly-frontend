@@ -50,6 +50,7 @@ export default function Login() {
       const profileData = await profileRes.json();
       if (profileData && profileData.email) {
         setError('');
+        window.dispatchEvent(new Event('authChanged'));
         navigate('/profile');
       } else {
         setError('Login succeeded but authentication failed.');

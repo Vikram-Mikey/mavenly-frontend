@@ -37,9 +37,18 @@ function AddCart() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
     fetch('/api/profile/', { credentials: 'include' })
-      .then(res => res.ok ? res.json() : null)
-      .then(data => {
-        if (data && data.email) {
+      .then(async res => {
+        const cookie = document.cookie;
+        console.log('Session cookie:', cookie);
+        console.log('Profile API status:', res.status);
+        let data = null;
+        try {
+          data = await res.json();
+        } catch (err) {
+          console.error('Failed to parse profile response:', err);
+        }
+        console.log('Profile API response:', data);
+        if (res.ok && data && data.email) {
           setIsLoggedIn(true);
           setSessionId(data.id || data.email);
         } else {
@@ -47,7 +56,8 @@ function AddCart() {
           setSessionId(null);
         }
       })
-      .catch(() => {
+      .catch((err) => {
+        console.error('Profile API fetch failed:', err);
         setIsLoggedIn(false);
         setSessionId(null);
       });

@@ -6,6 +6,13 @@ import Cookies from 'js-cookie';
 
 // Use js-cookie for better cookie management
 function getCookie(name) {
+  // Use document.cookie for sessionid, since js-cookie cannot read HTTPOnly cookies
+  if (name === 'sessionid') {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return undefined;
+  }
   return Cookies.get(name);
 }
 
@@ -18,7 +25,7 @@ function Navbar() {
   const [cartHasItems, setCartHasItems] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 900);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(!!getCookie('user_id'));
+  const [isLoggedIn, setIsLoggedIn] = useState(!!getCookie('sessionid'));
   const location = useLocation();
   const navigate = useNavigate();
   const typePrograms = {
@@ -63,18 +70,18 @@ function Navbar() {
 };
 
   useEffect(() => {
-    const userId = getCookie('user_id');
+    const sessionId = getCookie('sessionid');
     let cart = [];
-    if (userId) {
-      cart = JSON.parse(localStorage.getItem(`cart_${userId}`) || '[]');
+    if (sessionId) {
+      cart = JSON.parse(localStorage.getItem(`cart_${sessionId}`) || '[]');
     }
     setCartHasItems(Array.isArray(cart) && cart.length > 0);
     // Listen for cart changes in other tabs/windows and in this tab
     const handleStorage = () => {
       let updatedCart = [];
-      const userId = getCookie('user_id');
-      if (userId) {
-        updatedCart = JSON.parse(localStorage.getItem(`cart_${userId}`) || '[]');
+      const sessionId = getCookie('sessionid');
+      if (sessionId) {
+        updatedCart = JSON.parse(localStorage.getItem(`cart_${sessionId}`) || '[]');
       }
       setCartHasItems(Array.isArray(updatedCart) && updatedCart.length > 0);
     };
@@ -89,7 +96,7 @@ function Navbar() {
     const handleResize = () => setIsMobile(window.innerWidth <= 900);
     window.addEventListener('resize', handleResize);
     // Check login state on mount and when cookies change
-    const checkLogin = () => setIsLoggedIn(!!getCookie('user_id'));
+    const checkLogin = () => setIsLoggedIn(!!getCookie('sessionid'));
     checkLogin();
     const interval = setInterval(checkLogin, 1000); // Poll every second
     return () => {

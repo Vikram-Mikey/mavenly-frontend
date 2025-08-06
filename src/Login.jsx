@@ -8,7 +8,7 @@ export default function Login() {
   const [form, setForm] = useState({ username: '', password: '' });
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [checkingAuth, setCheckingAuth] = useState(true);
+  // Removed checkingAuth state, not needed
 
 
 
@@ -50,7 +50,7 @@ export default function Login() {
     }
   };
 
-  if (checkingAuth) return <div className="loading">Checking authentication...</div>;
+  // Removed unnecessary authentication check
 
   return (
     <section className="page-login">

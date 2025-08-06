@@ -8,9 +8,6 @@ export default function Login() {
   const [form, setForm] = useState({ username: '', password: '' });
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  // Removed checkingAuth state, not needed
-
-
 
   const handleChange = e => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -26,6 +23,7 @@ export default function Login() {
       return;
     }
     try {
+      // Login API call
       const res = await fetch(`${API_BASE_URL}/api/login/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -33,19 +31,7 @@ export default function Login() {
         body: JSON.stringify(form),
       });
       const data = await res.json();
-      if (res.ok) {
-        // After login, check authentication via profile API
-        const profileRes = await fetch(`${API_BASE_URL}/api/profile/`, { credentials: 'include' });
-        if (profileRes.ok) {
-          const profileData = await profileRes.json();
-          if (profileData && profileData.email) {
-            setError('');
-            navigate('/profile'); // Redirect to profile page after login
-            return;
-          }
-        }
-        setError('Login succeeded but authentication failed.');
-      } else {
+      if (!res.ok) {
         if (data.error === 'Username or email not found.') {
           setError('Username or email not found.');
         } else if (data.error === 'Incorrect password.') {
@@ -53,13 +39,25 @@ export default function Login() {
         } else {
           setError(data.error || 'Login failed.');
         }
+        return;
       }
-    } catch {
+      // Profile API call to confirm authentication
+      const profileRes = await fetch(`${API_BASE_URL}/api/profile/`, { credentials: 'include' });
+      if (!profileRes.ok) {
+        setError('Login succeeded but authentication failed.');
+        return;
+      }
+      const profileData = await profileRes.json();
+      if (profileData && profileData.email) {
+        setError('');
+        navigate('/profile');
+      } else {
+        setError('Login succeeded but authentication failed.');
+      }
+    } catch (err) {
       setError('Network error. Please try again.');
     }
   };
-
-  // Removed unnecessary authentication check
 
   return (
     <section className="page-login">

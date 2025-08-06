@@ -72,60 +72,51 @@ function Navbar() {
 
   useEffect(() => {
     // Check login state via backend API
-    fetch('/api/profile/', { credentials: 'include' })
-      .then(async res => {
+    const checkLoginState = async () => {
+      try {
+        const res = await fetch('/api/profile/', { credentials: 'include' });
         if (!res.ok) {
-          // Log error status for debugging
           console.warn('Profile API error:', res.status);
           setIsLoggedIn(false);
           setCartHasItems(false);
           setAuthLoading(false);
-          return null;
+          return;
         }
-        try {
-          const data = await res.json();
-          if (data && data.email) {
-            setIsLoggedIn(true);
-            let cart = JSON.parse(localStorage.getItem(`cart_${data.id || data.email}`) || '[]');
-            setCartHasItems(Array.isArray(cart) && cart.length > 0);
-          } else {
-            setIsLoggedIn(false);
-            setCartHasItems(false);
-          }
-        } catch (err) {
-          console.error('Failed to parse profile response:', err);
+        const data = await res.json();
+        if (data && data.email) {
+          setIsLoggedIn(true);
+          let cart = JSON.parse(localStorage.getItem(`cart_${data.id || data.email}`) || '[]');
+          setCartHasItems(Array.isArray(cart) && cart.length > 0);
+        } else {
           setIsLoggedIn(false);
           setCartHasItems(false);
         }
-        setAuthLoading(false);
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error('Profile API fetch failed:', err);
         setIsLoggedIn(false);
         setCartHasItems(false);
-        setAuthLoading(false);
-      });
+      }
+      setAuthLoading(false);
+    };
+    checkLoginState();
     // Listen for cart changes in other tabs/windows and in this tab
-    const handleStorage = () => {
-      fetch('/api/profile/', { credentials: 'include' })
-        .then(async res => {
-          if (!res.ok) {
-            setCartHasItems(false);
-            return;
-          }
-          try {
-            const data = await res.json();
-            if (data && data.email) {
-              let updatedCart = JSON.parse(localStorage.getItem(`cart_${data.id || data.email}`) || '[]');
-              setCartHasItems(Array.isArray(updatedCart) && updatedCart.length > 0);
-            } else {
-              setCartHasItems(false);
-            }
-          } catch {
-            setCartHasItems(false);
-          }
-        })
-        .catch(() => setCartHasItems(false));
+    const handleStorage = async () => {
+      try {
+        const res = await fetch('/api/profile/', { credentials: 'include' });
+        if (!res.ok) {
+          setCartHasItems(false);
+          return;
+        }
+        const data = await res.json();
+        if (data && data.email) {
+          let updatedCart = JSON.parse(localStorage.getItem(`cart_${data.id || data.email}`) || '[]');
+          setCartHasItems(Array.isArray(updatedCart) && updatedCart.length > 0);
+        } else {
+          setCartHasItems(false);
+        }
+      } catch {
+        setCartHasItems(false);
+      }
     };
     window.addEventListener('storage', handleStorage);
     // Listen for cart changes in this tab

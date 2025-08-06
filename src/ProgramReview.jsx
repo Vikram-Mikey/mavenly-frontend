@@ -48,10 +48,13 @@ const ProgramReview = ({ programName }) => {
   const [adminEmail, setAdminEmail] = useState("");
   useEffect(() => {
     let email = getCookie("user_email");
+    console.log('[ProgramReview] Cookie user_email:', email);
     if (email && email.startsWith('"') && email.endsWith('"')) {
       email = email.slice(1, -1);
     }
     setAdminEmail(email || "");
+    console.log('[ProgramReview] adminEmail state:', email || "");
+    console.log('[ProgramReview] ADMIN_EMAIL:', ADMIN_EMAIL);
   }, []);
 
   useEffect(() => {

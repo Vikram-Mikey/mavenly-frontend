@@ -25,7 +25,9 @@ function Navbar() {
   const [cartHasItems, setCartHasItems] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 900);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(!!getCookie('sessionid'));
+  const sessionId = getCookie('sessionid');
+  console.log('[Navbar] sessionid:', sessionId);
+  const [isLoggedIn, setIsLoggedIn] = useState(!!sessionId);
   const location = useLocation();
   const navigate = useNavigate();
   const typePrograms = {

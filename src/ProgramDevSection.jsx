@@ -102,9 +102,26 @@ function ProgramDevSection({ className, imgSrc, imgAlt }) {
     if (parts.length === 2) return parts.pop().split(';').shift();
   };
 
+  const [sessionId, setSessionId] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    fetch('/api/profile/', { credentials: 'include' })
+      .then(res => res.ok ? res.json() : null)
+      .then(data => {
+        if (data && data.email) {
+          setIsLoggedIn(true);
+          setSessionId(data.id || data.email);
+        } else {
+          setIsLoggedIn(false);
+          setSessionId(null);
+        }
+      })
+      .catch(() => {
+        setIsLoggedIn(false);
+        setSessionId(null);
+      });
+  }, []);
   const handleAddCart = (planKey, planName) => {
-    const sessionId = getCookie('sessionid');
-    const isLoggedIn = !!sessionId;
     if (!isLoggedIn) {
       navigate('/login');
       return;

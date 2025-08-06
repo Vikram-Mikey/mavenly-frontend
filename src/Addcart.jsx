@@ -33,23 +33,35 @@ function AddCart() {
   const [referralCode, setReferralCode] = useState('');
   const [referralApplied, setReferralApplied] = useState(false);
   const [referralError, setReferralError] = useState('');
-  const sessionId = getCookie('sessionid');
-  console.log('[AddCart] sessionId:', sessionId);
+  const [sessionId, setSessionId] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    fetch('/api/profile/', { credentials: 'include' })
+      .then(res => res.ok ? res.json() : null)
+      .then(data => {
+        if (data && data.email) {
+          setIsLoggedIn(true);
+          setSessionId(data.id || data.email);
+        } else {
+          setIsLoggedIn(false);
+          setSessionId(null);
+        }
+      })
+      .catch(() => {
+        setIsLoggedIn(false);
+        setSessionId(null);
+      });
+  }, []);
   const [appliedReferral, setAppliedReferral] = useState(() => {
-    // On mount, try to load referral from localStorage per session
     try {
       if (!sessionId) return null;
       const ref = JSON.parse(localStorage.getItem(`applied_referral_${sessionId}`));
-      console.log('[AddCart] Loaded appliedReferral from localStorage:', ref);
       return ref || null;
     } catch (e) {
-      console.error('[AddCart] Error loading appliedReferral:', e);
       return null;
     }
   });
   const navigate = useNavigate();
-  const isLoggedIn = !!sessionId;
-  console.log('[AddCart] isLoggedIn:', isLoggedIn);
 
   // Helper to get price by plan
   const getPlanPrice = (plan) => {
@@ -61,12 +73,10 @@ function AddCart() {
 
   useEffect(() => {
     if (!isLoggedIn) {
-      console.warn('[AddCart] Not logged in, navigating to /login');
       navigate('/login');
       return;
     }
     const cartData = JSON.parse(localStorage.getItem(`cart_${sessionId}`) || '[]');
-    console.log('[AddCart] Loaded cartData:', cartData);
     setCart(cartData);
     // Calculate total
     let sum = 0;

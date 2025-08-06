@@ -25,9 +25,7 @@ function Navbar() {
   const [cartHasItems, setCartHasItems] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 900);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const sessionId = getCookie('sessionid');
-  console.log('[Navbar] sessionid:', sessionId);
-  const [isLoggedIn, setIsLoggedIn] = useState(!!sessionId);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const typePrograms = {
@@ -72,20 +70,37 @@ function Navbar() {
 };
 
   useEffect(() => {
-    const sessionId = getCookie('sessionid');
-    let cart = [];
-    if (sessionId) {
-      cart = JSON.parse(localStorage.getItem(`cart_${sessionId}`) || '[]');
-    }
-    setCartHasItems(Array.isArray(cart) && cart.length > 0);
+    // Check login state via backend API
+    fetch('/api/profile/', { credentials: 'include' })
+      .then(res => res.ok ? res.json() : null)
+      .then(data => {
+        if (data && data.email) {
+          setIsLoggedIn(true);
+          // Use user id or email for cart key if needed
+          let cart = JSON.parse(localStorage.getItem(`cart_${data.id || data.email}`) || '[]');
+          setCartHasItems(Array.isArray(cart) && cart.length > 0);
+        } else {
+          setIsLoggedIn(false);
+          setCartHasItems(false);
+        }
+      })
+      .catch(() => {
+        setIsLoggedIn(false);
+        setCartHasItems(false);
+      });
     // Listen for cart changes in other tabs/windows and in this tab
     const handleStorage = () => {
-      let updatedCart = [];
-      const sessionId = getCookie('sessionid');
-      if (sessionId) {
-        updatedCart = JSON.parse(localStorage.getItem(`cart_${sessionId}`) || '[]');
-      }
-      setCartHasItems(Array.isArray(updatedCart) && updatedCart.length > 0);
+      fetch('/api/profile/', { credentials: 'include' })
+        .then(res => res.ok ? res.json() : null)
+        .then(data => {
+          if (data && data.email) {
+            let updatedCart = JSON.parse(localStorage.getItem(`cart_${data.id || data.email}`) || '[]');
+            setCartHasItems(Array.isArray(updatedCart) && updatedCart.length > 0);
+          } else {
+            setCartHasItems(false);
+          }
+        })
+        .catch(() => setCartHasItems(false));
     };
     window.addEventListener('storage', handleStorage);
     // Listen for cart changes in this tab
@@ -98,13 +113,10 @@ function Navbar() {
     const handleResize = () => setIsMobile(window.innerWidth <= 900);
     window.addEventListener('resize', handleResize);
     // Check login state on mount and when cookies change
-    const checkLogin = () => setIsLoggedIn(!!getCookie('sessionid'));
-    checkLogin();
-    const interval = setInterval(checkLogin, 1000); // Poll every second
+    // No need to poll cookies, rely on API
     return () => {
       window.removeEventListener('storage', handleStorage);
       window.removeEventListener('resize', handleResize);
-      clearInterval(interval);
       localStorage.setItem = origSetItem;
     };
   }, []);

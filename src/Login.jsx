@@ -34,8 +34,17 @@ export default function Login() {
       });
       const data = await res.json();
       if (res.ok) {
-        setError('');
-        navigate('/profile'); // Redirect to profile page after login
+        // After login, check authentication via profile API
+        const profileRes = await fetch(`${API_BASE_URL}/api/profile/`, { credentials: 'include' });
+        if (profileRes.ok) {
+          const profileData = await profileRes.json();
+          if (profileData && profileData.email) {
+            setError('');
+            navigate('/profile'); // Redirect to profile page after login
+            return;
+          }
+        }
+        setError('Login succeeded but authentication failed.');
       } else {
         if (data.error === 'Username or email not found.') {
           setError('Username or email not found.');

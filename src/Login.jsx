@@ -51,7 +51,7 @@ export default function Login() {
       if (profileData && profileData.email) {
         setError('');
         window.dispatchEvent(new Event('authChanged'));
-        navigate('/profile');
+        setTimeout(() => navigate('/profile'), 100);
       } else {
         setError('Login succeeded but authentication failed.');
       }

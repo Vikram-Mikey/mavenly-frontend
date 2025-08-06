@@ -11,10 +11,6 @@ export default function Login() {
   const [checkingAuth, setCheckingAuth] = useState(true);
 
 
-  useEffect(() => {
-    // Remove profile fetch; just set checkingAuth to false on mount
-    setCheckingAuth(false);
-  }, []);
 
   const handleChange = e => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));

@@ -98,13 +98,12 @@ function App() {
         <Route path="/freelancing/Finance-Program" element={<FreelancingFinanceProgram />} />
         <Route path="/freelancing/UI-Designing" element={<FreelancingUIDesigning />} />
         <Route path="/freelancing/Full-Stack-Development" element={<FreelancingFullStackDevelopment />} />
-           <Route path="/addcart" element={<AddCart />} />
-           <Route path="/refund-cancellation-policy" element={<RefundCancellationPolicy />} />
-           <Route path="/forgot-password" element={<ForgotPassword />} />
-           <Route path="/checkout" element={<Checkout />} />
-           <Route path="/profile" element={<Profile />} />
-           <Route path="*" element={<NotFound />} />
-
+        <Route path="/addcart" element={<AddCart />} />
+        <Route path="/refund-cancellation-policy" element={<RefundCancellationPolicy />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
       <WhatsAppButton />

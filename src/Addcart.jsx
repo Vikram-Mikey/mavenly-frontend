@@ -40,21 +40,17 @@ function AddCart() {
   useEffect(() => {
     fetch(`${API_BASE_URL}/api/profile/`, { credentials: 'include' })
       .then(async res => {
-        const cookie = document.cookie;
-        console.log('[Addcart] Session cookie:', cookie);
-        console.log('[Addcart] Profile API status:', res.status);
         let data = null;
         const contentType = res.headers.get('content-type');
         if (contentType && contentType.includes('application/json')) {
           try {
             data = await res.json();
           } catch (err) {
-            console.error('[Addcart] Failed to parse profile response:', err);
+            // Parsing error
           }
         } else {
-          console.error('[Addcart] Profile API did not return JSON.');
+          // Not JSON
         }
-        console.log('[Addcart] Profile API response:', data);
         if (res.ok && data && data.email) {
           setIsLoggedIn(true);
           setSessionId(data.id || data.email);
@@ -68,8 +64,7 @@ function AddCart() {
         }
         setIsLoading(false);
       })
-      .catch((err) => {
-        console.error('[Addcart] Profile API fetch failed:', err);
+      .catch(() => {
         setIsLoggedIn(false);
         setSessionId(null);
         setIsLoading(false);

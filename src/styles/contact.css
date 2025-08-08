@@ -106,6 +106,7 @@
 .contact-form form textarea {
   min-height: 120px;
   resize: vertical;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 .contact-form form button[type="submit"] {

@@ -30,19 +30,7 @@ function Checkout() {
   const [customUpi, setCustomUpi] = useState('');
   const [showCustomUpi, setShowCustomUpi] = useState(false);
   const navigate = useNavigate();
-  // Fetch UPI and QR info from backend
-  useEffect(() => {
-    fetch(`${API_BASE_URL}/api/payment-info/`)
-      .then(res => res.json())
-      .then(data => {
-        setUpiId(data.upi_number || '');
-        setQrCodeUrl(data.qr_image_url || '');
-      })
-      .catch(() => {
-        setUpiId('');
-        setQrCodeUrl('');
-      });
-  }, []);
+  // ...existing code...
 
   useEffect(() => {
     const userId = getCookie('user_id');

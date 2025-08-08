@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import API_BASE_URL from './config.js';
 import './styles/addcart.css';
 
 
@@ -37,37 +38,45 @@ function AddCart() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    fetch('/api/profile/', { credentials: 'include' })
+    fetch(`${API_BASE_URL}/api/profile/`, { credentials: 'include' })
       .then(async res => {
         const cookie = document.cookie;
-        console.log('Session cookie:', cookie);
-        console.log('Profile API status:', res.status);
+        console.log('[Addcart] Session cookie:', cookie);
+        console.log('[Addcart] Profile API status:', res.status);
         let data = null;
         const contentType = res.headers.get('content-type');
         if (contentType && contentType.includes('application/json')) {
           try {
             data = await res.json();
           } catch (err) {
-            console.error('Failed to parse profile response:', err);
+            console.error('[Addcart] Failed to parse profile response:', err);
           }
         } else {
-          console.error('Profile API did not return JSON.');
+          console.error('[Addcart] Profile API did not return JSON.');
         }
-        console.log('Profile API response:', data);
+        console.log('[Addcart] Profile API response:', data);
         if (res.ok && data && data.email) {
           setIsLoggedIn(true);
           setSessionId(data.id || data.email);
         } else {
           setIsLoggedIn(false);
           setSessionId(null);
+          setTimeout(() => {
+            alert('Session not found or expired. Please login again.');
+            navigate('/login');
+          }, 100);
         }
         setIsLoading(false);
       })
       .catch((err) => {
-        console.error('Profile API fetch failed:', err);
+        console.error('[Addcart] Profile API fetch failed:', err);
         setIsLoggedIn(false);
         setSessionId(null);
         setIsLoading(false);
+        setTimeout(() => {
+          alert('Network error or session expired. Please login again.');
+          navigate('/login');
+        }, 100);
       });
   }, []);
   const [appliedReferral, setAppliedReferral] = useState(() => {

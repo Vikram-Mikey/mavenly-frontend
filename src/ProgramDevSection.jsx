@@ -107,7 +107,13 @@ function ProgramDevSection({ className, imgSrc, imgAlt }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    fetch(`${API_BASE_URL}/api/profile/`, { credentials: 'include' })
+    fetch(`${API_BASE_URL}/api/profile/`, {
+      method: 'GET',
+      credentials: 'include', // Ensures cookies are sent
+      headers: {
+        'Accept': 'application/json',
+      },
+    })
       .then(res => res.ok ? res.json() : null)
       .then(data => {
         if (data && data.email) {
@@ -131,6 +137,7 @@ function ProgramDevSection({ className, imgSrc, imgAlt }) {
       navigate('/login');
       return;
     }
+    // ...existing code...
     const programName = imgAlt;
     const programObj = PROGRAMS.find(p => p.name === programName);
     if (!programObj) {

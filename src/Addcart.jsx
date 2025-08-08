@@ -35,6 +35,7 @@ function AddCart() {
   const [referralError, setReferralError] = useState('');
   const [sessionId, setSessionId] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     fetch('/api/profile/', { credentials: 'include' })
       .then(async res => {
@@ -55,11 +56,13 @@ function AddCart() {
           setIsLoggedIn(false);
           setSessionId(null);
         }
+        setIsLoading(false);
       })
       .catch((err) => {
         console.error('Profile API fetch failed:', err);
         setIsLoggedIn(false);
         setSessionId(null);
+        setIsLoading(false);
       });
   }, []);
   const [appliedReferral, setAppliedReferral] = useState(() => {
@@ -82,6 +85,7 @@ function AddCart() {
   };
 
   useEffect(() => {
+    if (isLoading) return; // Wait for session check
     if (!isLoggedIn) {
       navigate('/login');
       return;
@@ -98,7 +102,7 @@ function AddCart() {
       sum = sum - Math.round(sum * appliedReferral.discount);
     }
     setTotal(sum);
-  }, [isLoggedIn, navigate, sessionId, appliedReferral]);
+  }, [isLoading, isLoggedIn, navigate, sessionId, appliedReferral]);
 
   const removeFromCart = idxToRemove => {
     const updatedCart = cart.filter((_, idx) => idx !== idxToRemove);

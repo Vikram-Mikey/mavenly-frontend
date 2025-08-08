@@ -17,18 +17,26 @@ export default function Profile() {
 
   useEffect(() => {
     fetch(`${API_BASE_URL}/api/profile/`, { credentials: 'include' })
-      .then(res => res.json())
-      .then(data => {
-        if (data.error) setMessage(data.error), setMessageType('error');
-        else {
-          setProfile(data);
-          setForm({ username: data.username, email: data.email, phone: data.phone, password: '' });
-          setPhotoUrl(data.photo_url || '');
+      .then(async res => {
+        const contentType = res.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          try {
+            const data = await res.json();
+            if (data.error) setMessage(data.error), setMessageType('error');
+            else {
+              setProfile(data);
+              setForm({ username: data.username, email: data.email, phone: data.phone, password: '' });
+              setPhotoUrl(data.photo_url || '');
+            }
+          } catch (err) {
+            setMessage('Failed to parse profile response.'), setMessageType('error');
+          }
+        } else {
+          setMessage('Profile API did not return JSON.'), setMessageType('error');
         }
       })
       .catch(() => {
-        setMessage('Failed to load profile.');
-        setMessageType('error');
+        setMessage('Failed to load profile.'), setMessageType('error');
       });
   }, []);
 

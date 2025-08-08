@@ -89,6 +89,7 @@
   background: #181818;
   color: #fff;
   box-sizing: border-box;
+  font-weight: bold;
   outline: none;
   transition: border-color 0.2s;
 }
@@ -107,6 +108,7 @@
   min-height: 120px;
   resize: vertical;
   font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
 }
 
 .contact-form form button[type="submit"] {

@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import API_BASE_URL from './config.js';
 import ProgramReview from './ProgramReview';
 import { useNavigate } from 'react-router-dom';
 import './styles/programdevsection.css';
@@ -104,8 +105,9 @@ function ProgramDevSection({ className, imgSrc, imgAlt }) {
 
   const [sessionId, setSessionId] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    fetch('/api/profile/', { credentials: 'include' })
+    fetch(`${API_BASE_URL}/api/profile/`, { credentials: 'include' })
       .then(res => res.ok ? res.json() : null)
       .then(data => {
         if (data && data.email) {
@@ -115,13 +117,16 @@ function ProgramDevSection({ className, imgSrc, imgAlt }) {
           setIsLoggedIn(false);
           setSessionId(null);
         }
+        setIsLoading(false);
       })
       .catch(() => {
         setIsLoggedIn(false);
         setSessionId(null);
+        setIsLoading(false);
       });
   }, []);
   const handleAddCart = (planKey, planName) => {
+    if (isLoading) return; // Wait for session check
     if (!isLoggedIn) {
       navigate('/login');
       return;

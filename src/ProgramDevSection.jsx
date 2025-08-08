@@ -292,7 +292,6 @@ function ProgramDevSection({ className, imgSrc, imgAlt }) {
           ))}
         </ul>
         {/* Webinar Video (inside syllabus section, click to play) */}
-        <WebinarPlayer videoUrl={WEBINAR_VIDEOS[normalizedImgAlt]} />
 
 
       </section>

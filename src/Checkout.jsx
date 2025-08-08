@@ -33,11 +33,24 @@ function Checkout() {
   // ...existing code...
 
   useEffect(() => {
-    const userId = getCookie('user_id');
-    let cart = [];
-    if (userId) {
-      cart = JSON.parse(localStorage.getItem(`cart_${userId}`) || '[]');
+    // Get sessionId logic from Addcart.jsx
+    let sessionId = null;
+    try {
+      const profile = JSON.parse(localStorage.getItem('profile'));
+      if (profile && (profile.id || profile.email)) {
+        sessionId = profile.id || profile.email;
+      } else {
+        sessionId = getCookie('user_id');
+      }
+    } catch {
+      sessionId = getCookie('user_id');
     }
+    if (!sessionId) {
+      setCartEmpty(true);
+      setTimeout(() => navigate('/addcart'), 1000);
+      return;
+    }
+    let cart = JSON.parse(localStorage.getItem(`cart_${sessionId}`) || '[]');
     if (!cart || cart.length === 0) {
       setCartEmpty(true);
       setTimeout(() => navigate('/addcart'), 1000);
@@ -55,13 +68,13 @@ function Checkout() {
       original += getPlanPrice(item.plan);
     });
     let total = 0;
-    const totalStr = localStorage.getItem(`cart_total_${userId}`);
+    const totalStr = localStorage.getItem(`cart_total_${sessionId}`);
     if (totalStr) {
       total = parseFloat(totalStr);
     } else {
       let sum = original;
       try {
-        const ref = JSON.parse(localStorage.getItem('applied_referral'));
+        const ref = JSON.parse(localStorage.getItem(`applied_referral_${sessionId}`));
         if (ref && ref.discount) {
           sum = sum - Math.round(sum * ref.discount);
         }

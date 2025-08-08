@@ -43,10 +43,15 @@ function AddCart() {
         console.log('Session cookie:', cookie);
         console.log('Profile API status:', res.status);
         let data = null;
-        try {
-          data = await res.json();
-        } catch (err) {
-          console.error('Failed to parse profile response:', err);
+        const contentType = res.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          try {
+            data = await res.json();
+          } catch (err) {
+            console.error('Failed to parse profile response:', err);
+          }
+        } else {
+          console.error('Profile API did not return JSON.');
         }
         console.log('Profile API response:', data);
         if (res.ok && data && data.email) {

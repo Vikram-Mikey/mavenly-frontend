@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { getUserCart } from './hooks/cartUtils';
 import useProfilePhoto from './hooks/useProfilePhoto';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import './styles/navbar.css';
@@ -85,7 +86,7 @@ function Navbar() {
         const data = await res.json();
         if (data && data.email) {
           setIsLoggedIn(true);
-          let cart = JSON.parse(localStorage.getItem(`cart_${data.id || data.email}`) || '[]');
+          let cart = getUserCart(data.id || data.email);
           setCartHasItems(Array.isArray(cart) && cart.length > 0);
         } else {
           setIsLoggedIn(false);
@@ -115,7 +116,7 @@ function Navbar() {
         }
         const data = await res.json();
         if (data && data.email) {
-          let updatedCart = JSON.parse(localStorage.getItem(`cart_${data.id || data.email}`) || '[]');
+          let updatedCart = getUserCart(data.id || data.email);
           setCartHasItems(Array.isArray(updatedCart) && updatedCart.length > 0);
         } else {
           setCartHasItems(false);

@@ -67,7 +67,7 @@ function Contact() {
           </div>
           <div className="talk">
             <span>Let's Talk</span><br />
-             +91 63808 06142
+             +91 63836 87601
           </div>
         </div>
         <div className="contact-form">

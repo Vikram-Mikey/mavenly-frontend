@@ -34,7 +34,7 @@ function Footer() {
             <div className="footer-contact-left-address">
               451, Kamarajar Road, Peelamedu,<br/> Lakshmi Ammal Layout, Hopes College,<br/> Coimbatore- 641014, Tamil Nadu<br />
               hr@mavenly.in<br />
-              +91 63808 06142
+              +91 6383687601
             </div>
           </div>
           <div className="footer-contact-center">
